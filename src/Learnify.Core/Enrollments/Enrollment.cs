@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Learnify.Enrollments
 {
+    [Table("Enrollment")]
     public class Enrollment : Entity, IHasCreationTime
     {
         [ForeignKey("StudentId")]
@@ -22,6 +23,7 @@ namespace Learnify.Enrollments
         public virtual int CourseId { get; set; }
         public virtual Student Course { get; set; }
 
+        [Column("EnrollmentDate")]
         public DateTime CreationTime { get; set; }
 
         public Enrollment()

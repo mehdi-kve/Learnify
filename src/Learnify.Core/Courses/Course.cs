@@ -16,7 +16,8 @@ namespace Learnify.Courses
         public string CourseCode { get; set; }
         public DateTime CreationTime { get; set; }
 
-        public ICollection<Enrollment> MyProperty { get; set; }
+        public ICollection<Enrollment> Enrollments { get; set; }
+        public ICollection<CourseStep> CourseSteps { get; set; }
 
         public Course()
         {

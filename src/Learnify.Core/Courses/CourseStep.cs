@@ -1,6 +1,7 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
+using Learnify.Students;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,6 +20,8 @@ namespace Learnify.Courses
         [ForeignKey("CourseId")]
         public virtual int CourseId { get; set; }
         public virtual Course Course { get; set; }
+
+        public ICollection<StudentProgress> StudentProgresses { get; set; }
     }
 }
  

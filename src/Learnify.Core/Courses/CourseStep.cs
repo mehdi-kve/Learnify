@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Learnify.Courses
 {
-    [Table("CourseStep")]
+    [Table("CourseSteps")]
     public class CourseStep : Entity
     {
         public string StepName { get; set; }

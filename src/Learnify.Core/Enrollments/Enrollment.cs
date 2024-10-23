@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Learnify.Enrollments
 {
-    [Table("Enrollment")]
+    [Table("Enrollments")]
     public class Enrollment : Entity, IHasCreationTime
     {
         [ForeignKey("StudentId")]

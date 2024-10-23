@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Learnify.Students
 {
+    [Table("StudentsProgress")]
     public class StudentProgress: Entity
     {
         public ProgressState State { get; set; }

@@ -19,6 +19,11 @@ namespace Learnify.Students
         [Column("RegistrationDate")]
         public DateTime CreationTime { get; set; }
 
+<<<<<<< HEAD
+=======
+        public IList<CourseStep> CourseSteps { get; set;}
+
+>>>>>>> 94ddca585912a5083452256d4313e549038d6d1f
         public Student()
         {
             CreationTime = Clock.Now;

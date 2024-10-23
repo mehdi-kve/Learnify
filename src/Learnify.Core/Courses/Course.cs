@@ -1,6 +1,7 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
+using Learnify.Enrollments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace Learnify.Courses
         public string CourseName { get; set; }
         public string CourseCode { get; set; }
         public DateTime CreationTime { get; set; }
-        public IList<CourseStep> CourseSteps { get; set; }
+
+        public ICollection<Enrollment> MyProperty { get; set; }
 
         public Course()
         {

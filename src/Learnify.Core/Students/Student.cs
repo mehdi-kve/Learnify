@@ -20,7 +20,7 @@ namespace Learnify.Students
         [Column("RegistrationDate")]
         public DateTime CreationTime { get; set; }
 
-        public ICollection<Enrollment> MyProperty { get; set; }
+        public ICollection<Enrollment> Enrollments { get; set; }
 
         public Student()
         {

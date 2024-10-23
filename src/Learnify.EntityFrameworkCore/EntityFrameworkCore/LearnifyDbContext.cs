@@ -23,5 +23,25 @@ namespace Learnify.EntityFrameworkCore
             : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // enrollment join table for student/course many_to_many relation
+            modelBuilder.Entity<Enrollment>()
+                .HasKey(sc => new { sc.StudentId, sc.CourseId});
+
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(sc => sc.Student)
+                .WithMany(s => s.Enrollments)
+                .HasForeignKey(sc => sc.StudentId);
+
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(sc => sc.Course)
+                .WithMany(s => s.Enrollments)
+                .HasForeignKey(sc => sc.CourseId);
+            //
+
+
+        }
     }
 }

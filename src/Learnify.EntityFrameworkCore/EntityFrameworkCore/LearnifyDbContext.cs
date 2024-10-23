@@ -26,7 +26,7 @@ namespace Learnify.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // enrollment join table for student/course many_to_many relation
+            // student <many_to_many> course
             modelBuilder.Entity<Enrollment>()
                 .HasKey(sc => new { sc.StudentId, sc.CourseId});
 
@@ -39,7 +39,12 @@ namespace Learnify.EntityFrameworkCore
                 .HasOne(sc => sc.Course)
                 .WithMany(s => s.Enrollments)
                 .HasForeignKey(sc => sc.CourseId);
-            //
+
+            // course <one_to_many> course step
+            modelBuilder.Entity<Course>()
+                .HasMany(c => c.CourseSteps)
+                .WithOne(cs => cs.Course)
+                .HasForeignKey(cs => cs.CourseId);
 
 
         }

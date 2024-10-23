@@ -23,6 +23,8 @@ namespace Learnify.Enrollments
         public virtual int CourseId { get; set; }
         public virtual Student Course { get; set; }
 
+        public ICollection<StudentProgress> StudentProgresses { get; set; }
+
         [Column("EnrollmentDate")]
         public DateTime CreationTime { get; set; }
 

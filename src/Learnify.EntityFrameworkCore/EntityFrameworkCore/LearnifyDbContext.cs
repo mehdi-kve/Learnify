@@ -46,6 +46,12 @@ namespace Learnify.EntityFrameworkCore
                 .WithOne(cs => cs.Course)
                 .HasForeignKey(cs => cs.CourseId);
 
+            // enrollment <one_to_many> student progress
+            modelBuilder.Entity<Enrollment>()
+                .HasMany(s => s.StudentProgresses)
+                .WithOne(en => en.Enrollment)
+                .HasForeignKey(cs => cs.EnrollmentId);
+
 
         }
     }

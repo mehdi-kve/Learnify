@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Learnify.Students
 {
-    [Table("Students")]
+    [Table("AppStudents")]
     public class Student : Entity, IHasCreationTime
     {
         public string Name { get; set; }
@@ -21,6 +21,7 @@ namespace Learnify.Students
         public DateTime CreationTime { get; set; }
 
         public ICollection<Enrollment> Enrollments { get; set; }
+        public ICollection<StudentProgress> StudentProgresses { get; set; }
 
         public Student()
         {

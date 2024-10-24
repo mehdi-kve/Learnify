@@ -13,11 +13,11 @@ namespace Learnify.EntityFrameworkCore
     {
         /* Define a DbSet for each entity of the application */
         
-        public DbSet<Student> students { get; set; }
+        public DbSet<Student> Students { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<CourseStep> CourseSteps { get; set; }
-        public DbSet<StudentProgress> studentProgresses { get; set; }
+        public DbSet<StudentProgress> StudentProgresses { get; set; }
 
         public LearnifyDbContext(DbContextOptions<LearnifyDbContext> options)
             : base(options)
@@ -26,31 +26,28 @@ namespace Learnify.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // student <many_to_many> course
-            modelBuilder.Entity<Enrollment>()
-                .HasKey(sc => new { sc.StudentId, sc.CourseId});
+            // student <many_to_many> course #1
+            modelBuilder.Entity<Student>()
+                .HasMany(s => s.Enrollments)
+                .WithOne(en => en.Student)
+                .HasForeignKey(en => en.StudentId);
 
-            modelBuilder.Entity<Enrollment>()
-                .HasOne(sc => sc.Student)
-                .WithMany(s => s.Enrollments)
-                .HasForeignKey(sc => sc.StudentId);
+            modelBuilder.Entity<Course>()
+                .HasMany(c => c.Enrollments)
+                .WithOne(en => en.Course)
+                .HasForeignKey(e => e.CourseId);
 
-            modelBuilder.Entity<Enrollment>()
-                .HasOne(sc => sc.Course)
-                .WithMany(s => s.Enrollments)
-                .HasForeignKey(sc => sc.CourseId);
-
-            // course <one_to_many> course step
+            // course <one_to_many> course step #2
             modelBuilder.Entity<Course>()
                 .HasMany(c => c.CourseSteps)
                 .WithOne(cs => cs.Course)
                 .HasForeignKey(cs => cs.CourseId);
 
-            // enrollment <one_to_many> student progress
-            modelBuilder.Entity<Enrollment>()
+            // student <one_to_many> student progress
+            modelBuilder.Entity<Student>()
                 .HasMany(s => s.StudentProgresses)
-                .WithOne(en => en.Enrollment)
-                .HasForeignKey(cs => cs.EnrollmentId);
+                .WithOne(sp => sp.Student)
+                .HasForeignKey(sp => sp.StudentId);
 
             //   course step progress <one_to_many> student progress
             modelBuilder.Entity<CourseStep>()

@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace Learnify.Students
 {
-    [Table("StudentProgresses")]
+    [Table("AppStudentProgresses")]
     public class StudentProgress: Entity
     {
         public ProgressState State { get; set; }
         public DateTime? CompletionDate { get; set; }
 
-        [ForeignKey("EnrollmentId")]
-        public virtual int EnrollmentId { get; set; }
-        public virtual Enrollment Enrollment { get; set; }
+        [ForeignKey("StudentId")]
+        public virtual int StudentId { get; set; }
+        public virtual Student Student { get; set; }
 
         [ForeignKey("CourseStep")]
         public virtual int CourseStepId { get; set; }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Learnify.Courses
 {
-    [Table("CourseSteps")]
+    [Table("AppCourseSteps")]
     public class CourseStep : Entity
     {
         public string StepName { get; set; }

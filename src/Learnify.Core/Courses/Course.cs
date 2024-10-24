@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Learnify.Courses
 {
-    [Table("Courses")]
+    [Table("AppCourses")]
     public class Course : Entity, IHasCreationTime
     {
         public string CourseName { get; set; }

@@ -26,6 +26,8 @@ namespace Learnify.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             // student <many_to_many> course #1
             modelBuilder.Entity<Student>()
                 .HasMany(s => s.Enrollments)

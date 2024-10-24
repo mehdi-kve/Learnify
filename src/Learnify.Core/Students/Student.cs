@@ -2,6 +2,7 @@
 using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
 using Learnify.Courses;
+using Learnify.Enrollments;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +20,7 @@ namespace Learnify.Students
         [Column("RegistrationDate")]
         public DateTime CreationTime { get; set; }
 
-        public IList<CourseStep> CourseSteps { get; set;}
+        public ICollection<Enrollment> Enrollments { get; set; }
 
         public Student()
         {

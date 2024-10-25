@@ -4,6 +4,7 @@ using Abp.Dependency;
 using Abp.Domain.Repositories;
 using Abp.UI;
 using Learnify.Students.Dtos;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace Learnify.Students
             _studnetRepo = StudnetRepo;
         }
 
+        // api Endpoint => GET: api/student/GetAll
         public async Task<StudentsOutputDto> GetAllAsync(GetAllStudentsDto input) 
         {
             var students = await _studnetRepo.GetAllListAsync();
@@ -30,7 +32,7 @@ namespace Learnify.Students
                 students = await _studnetRepo.GetAllListAsync(std => std.Name.Contains(input.Name));
                 
                 if (students.Count == 0)
-                    throw new UserFriendlyException("404, No Student Found!");
+                    throw new UserFriendlyException("No Student Found!");
             }
 
             return new StudentsOutputDto
@@ -39,15 +41,30 @@ namespace Learnify.Students
             };
         }
 
+        // api Endpoint => Get: api/student/GetByID
         public async Task<StudentDto> GetByIdAsync(GetByIdDto input) 
         {
             var student = await _studnetRepo.FirstOrDefaultAsync(std => std.Id == input.Id);
 
             if(student == null)
-                throw new UserFriendlyException("404, No Student Found!");
+                throw new UserFriendlyException("No Student Found!");
 
             return ObjectMapper.Map<StudentDto>(student);
         }
 
+        // api Endpoint => Post: api/student/Create
+        public async void CreateAsync(CreateStudentDto input)
+        {
+            /* TODO: Fix repetitive student avoidness
+             * var stdExist = _studnetRepo.FirstOrDefault(s => s.Name == input.Name);
+             if (stdExist != null)
+             {
+                 throw new UserFriendlyException("There is already a Student with given name");
+             }*/
+            var student = ObjectMapper.Map<Student>(input);
+            await _studnetRepo.InsertAsync(student);
+        }
+
+        
     }
 }

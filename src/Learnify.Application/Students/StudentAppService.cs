@@ -2,6 +2,7 @@
 using Abp.Application.Services.Dto;
 using Abp.Dependency;
 using Abp.Domain.Repositories;
+using Abp.UI;
 using Learnify.Students.Dtos;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,11 @@ using System.Threading.Tasks;
 
 namespace Learnify.Students
 {
-    public class StudentAppService : /*AsyncCrudAppService<Student, StudentDto>,*/LearnifyAppServiceBase ,IStudentAppService, ITransientDependency
+    public class StudentAppService : LearnifyAppServiceBase ,IStudentAppService, ITransientDependency
     {
         private readonly IRepository<Student> _studnetRepo;
 
         public StudentAppService(IRepository<Student> StudnetRepo)
-           // : base(StudnetRepo)
         {
             _studnetRepo = StudnetRepo;
         }
@@ -28,17 +28,25 @@ namespace Learnify.Students
             if(input.Name != null) 
             {
                 students = await _studnetRepo.GetAllListAsync(std => std.Name.Contains(input.Name));
+                
+                if (students.Count == 0)
+                    throw new UserFriendlyException("404, No Student Found!");
             }
 
-            var StdDtoList = students
-                .Select(std => new StudentDto
-                {
-                    Id = std.Id,
-                    Name = std.Name,
-                    Email = std.Email
-                }).ToList();
+            return new StudentsOutputDto
+            {
+                Students = ObjectMapper.Map<List<StudentDto>>(students)
+            };
+        }
 
-            return new StudentsOutputDto { Students = StdDtoList };
+        public async Task<StudentDto> GetByIdAsync(GetByIdDto input) 
+        {
+            var student = await _studnetRepo.FirstOrDefaultAsync(std => std.Id == input.Id);
+
+            if(student == null)
+                throw new UserFriendlyException("404, No Student Found!");
+
+            return ObjectMapper.Map<StudentDto>(student);
         }
 
     }

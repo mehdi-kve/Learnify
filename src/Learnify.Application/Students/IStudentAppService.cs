@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Learnify.Students
 {
-    public interface IStudentAppService // : IAsyncCrudAppService<StudentDto>
+    public interface IStudentAppService: IApplicationService
     {
         Task<StudentsOutputDto> GetAllAsync(GetAllStudentsDto input);
 
-        //Task<StudentDto> GetByIdAsync(StudentDto input);
+        Task<StudentDto> GetByIdAsync(GetByIdDto input);
 
         //void CreateAsync(StudentDto input);
 

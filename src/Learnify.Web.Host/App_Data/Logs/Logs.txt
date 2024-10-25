@@ -26519,3 +26519,153 @@ SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAba
 FROM [AbpBackgroundJobs] AS [a]
 WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
 ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:58:07,194 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:58:12,208 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:58:17,209 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:58:22,213 [9    ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:58:27,217 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:58:32,222 [9    ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:58:37,246 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (4ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:58:42,264 [9    ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (4ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:58:47,279 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:58:52,300 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:58:57,320 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:02,341 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:07,361 [9    ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:12,382 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:17,403 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:22,423 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:27,444 [16   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:32,465 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:37,477 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:42,484 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (5ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:47,492 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (4ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:52,494 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 19:59:57,499 [16   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 20:00:02,504 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 20:00:07,525 [16   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 20:00:12,544 [16   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (9ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 20:00:17,588 [16   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (26ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 20:00:22,599 [22   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (5ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 20:00:27,596 [16   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (1ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]
+INFO  2024-10-25 20:00:32,609 [16   ] oft.EntityFrameworkCore.Database.Command - Executed DbCommand (0ms) [Parameters=[@__p_1='?' (DbType = Int32), @__Now_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(@__p_1) [a].[Id], [a].[CreationTime], [a].[CreatorUserId], [a].[IsAbandoned], [a].[JobArgs], [a].[JobType], [a].[LastTryTime], [a].[NextTryTime], [a].[Priority], [a].[TryCount]
+FROM [AbpBackgroundJobs] AS [a]
+WHERE [a].[IsAbandoned] = CAST(0 AS bit) AND [a].[NextTryTime] <= @__Now_0
+ORDER BY [a].[Priority] DESC, [a].[TryCount], [a].[NextTryTime]

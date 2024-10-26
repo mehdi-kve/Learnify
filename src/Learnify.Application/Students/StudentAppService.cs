@@ -55,12 +55,11 @@ namespace Learnify.Students
         // api Endpoint => Post: api/student/Create
         public async Task<StudentDto> CreateAsync(CreateStudentDto input)
         {
-            /* TODO: Fix repetitive student avoidness
-             * var stdExist = _studnetRepo.FirstOrDefault(s => s.Name == input.Name);
+             var stdExist = _studnetRepo.FirstOrDefault(s => s.Name == input.Name);
              if (stdExist != null)
              {
                  throw new UserFriendlyException("There is already a Student with given name");
-             }*/
+             }
             var student = ObjectMapper.Map<Student>(input);
             await _studnetRepo.InsertAsync(student);
             return ObjectMapper.Map<StudentDto>(student);

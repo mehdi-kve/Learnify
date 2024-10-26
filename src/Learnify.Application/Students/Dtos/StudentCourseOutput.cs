@@ -1,4 +1,5 @@
-﻿using Abp.AutoMapper;
+﻿using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
 using Learnify.Courses;
 using Learnify.Enrollments;
 using System;
@@ -11,8 +12,10 @@ using System.Threading.Tasks;
 namespace Learnify.Students.Dtos
 {
     [AutoMap(typeof(Student))]
-    public class StudentCourseOutput : StudentDto
+    public class StudentCourseOutput
     {
-        public ICollection<Enrollment> Enrollments { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public List<EnrollmentDto> Enrollments { get; set; }
     }
 }

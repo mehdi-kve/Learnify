@@ -5,6 +5,7 @@ using Abp.Domain.Repositories;
 using Abp.UI;
 using Learnify.Students.Dtos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,14 +96,33 @@ namespace Learnify.Students
             return ObjectMapper.Map<StudentDto>(student);
         }
 
+        // api Endpoint => Get: api/student/GetCourses
         public async Task<StudentCourseOutput> GetCoursesAsync(int id)
         {
-            var student = _studentRepo.FirstOrDefault(s => s.Id == id);
+            var student = await _studentRepo
+            .GetAll()
+            .Include(std => std.Enrollments)
+            .ThenInclude(e => e.Course)
+            .FirstOrDefaultAsync(std => std.Id == id);
 
             if (student == null)
                 throw new UserFriendlyException("Student Not Found!");
 
-            return ObjectMapper.Map<StudentCourseOutput>(student);
+            var enrollmentsDto = student.Enrollments
+                .Select(enr => new EnrollmentDto 
+                {
+                    Id = enr.Id,
+                    CourseId = enr.Id,
+                    CourseName = enr.Course.CourseName,
+                    EnrollmentDate = enr.CreationTime
+                }).ToList();
+
+            return new StudentCourseOutput {
+                Name = student.Name,
+                Email = student.Email,
+                Enrollments = enrollmentsDto
+            };
+
         }
     }
 }

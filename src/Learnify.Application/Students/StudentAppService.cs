@@ -84,10 +84,17 @@ namespace Learnify.Students
         }
 
         // api Endpoint => Delete: api/student/Delete
+        public async Task<StudentDto> DeleteAsync(GetByIdDto input) 
+        {
+            var student = await _studnetRepo.FirstOrDefaultAsync(std => std.Id == input.Id);
+            if (student == null)
+                throw new UserFriendlyException("Student Not Found!");
 
+            await _studnetRepo.DeleteAsync(input.Id);
+            await CurrentUnitOfWork.SaveChangesAsync();
 
-
-
+            return ObjectMapper.Map<StudentDto>(student);
+        }
 
     }
 }

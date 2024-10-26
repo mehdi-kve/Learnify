@@ -18,6 +18,6 @@ namespace Learnify.Students
 
         Task<StudentDto> UpdateAsync(UpdateStudentDto input);
 
-        //void DeleteAsync();
+        Task<StudentDto> DeleteAsync(GetByIdDto input);
     }
 }

@@ -53,7 +53,7 @@ namespace Learnify.Students
         }
 
         // api Endpoint => Post: api/student/Create
-        public async void CreateAsync(CreateStudentDto input)
+        public async Task<StudentDto> CreateAsync(CreateStudentDto input)
         {
             /* TODO: Fix repetitive student avoidness
              * var stdExist = _studnetRepo.FirstOrDefault(s => s.Name == input.Name);
@@ -63,8 +63,31 @@ namespace Learnify.Students
              }*/
             var student = ObjectMapper.Map<Student>(input);
             await _studnetRepo.InsertAsync(student);
+            return ObjectMapper.Map<StudentDto>(student);
+
         }
 
-        
+        // api Endpoint => Put: api/student/Update
+        public async Task<StudentDto> UpdateAsync(UpdateStudentDto input) 
+        {
+            var student = await _studnetRepo.FirstOrDefaultAsync(std => std.Id == input.Id);
+            if (student == null)
+                throw new UserFriendlyException("Student Not Found!");
+  
+            student.Name = input.Name;
+            student.Email = input.Email;
+
+            await _studnetRepo.UpdateAsync(student);
+            await CurrentUnitOfWork.SaveChangesAsync(); 
+
+            return ObjectMapper.Map<StudentDto>(student);
+        }
+
+        // api Endpoint => Delete: api/student/Delete
+
+
+
+
+
     }
 }

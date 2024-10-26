@@ -12,6 +12,10 @@ namespace Learnify.Students.Dtos
     public class UpdateStudentDto
     {
         [Required]
+        [Range(1, 100)]
+        public int Id { get; set; }
+
+        [Required]
         [MaxLength(256)]
         public string Name { get; set; }
 

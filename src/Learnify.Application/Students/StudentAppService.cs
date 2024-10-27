@@ -100,10 +100,10 @@ namespace Learnify.Students
         public async Task<StudentCourseOutput> GetCoursesAsync(int id)
         {
             var student = await _studentRepo
-            .GetAll()
-            .Include(std => std.Enrollments)
-            .ThenInclude(e => e.Course)
-            .FirstOrDefaultAsync(std => std.Id == id);
+                .GetAll()
+                .Include(std => std.Enrollments)
+                .ThenInclude(e => e.Course)
+                .FirstOrDefaultAsync(std => std.Id == id);
 
             if (student == null)
                 throw new UserFriendlyException("Student Not Found!");
@@ -124,5 +124,36 @@ namespace Learnify.Students
             };
 
         }
+        // api Endpoint => Get: api/student/GetProgress
+        public async Task<StudentProgressOutput> GetProgressAsync(int id) 
+        {
+            var student = await _studentRepo
+                .GetAll()
+                .Include(std => std.StudentProgresses)
+                .ThenInclude(sp => sp.CourseStep)
+                .ThenInclude(cs => cs.Course)
+                .FirstOrDefaultAsync(std => std.Id == id);
+
+            if (student == null)
+                throw new UserFriendlyException("Student Not Found!");
+
+            var progressDto = student.StudentProgresses
+                .Select(sp => new ProgressDto
+                {
+                    Id = sp.Id,
+                    CourseName = sp.CourseStep.Course.CourseName,
+                    CourseStepName = sp.CourseStep.StepName,
+                    State = sp.State,
+                    CompletionDate = sp.CompletionDate
+                }).ToList();
+
+            return new StudentProgressOutput
+            {
+                Id = student.Id,
+                Name = student.Name,
+                StudentProgresses = progressDto
+            };
+        }
+
     }
 }

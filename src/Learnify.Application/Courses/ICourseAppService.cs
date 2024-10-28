@@ -1,5 +1,7 @@
 ﻿using Abp.Application.Services;
+using Abp.Domain.Repositories;
 using Learnify.Courses.Dto;
+using Learnify.Students;
 using Learnify.Students.Dtos;
 using System;
 using System.Collections.Generic;
@@ -15,7 +17,7 @@ namespace Learnify.Courses
 
         Task<CourseDto> GetByIdAsync(int id);
 
-        //Task<StudentCourseOutput> GetCoursesAsync(int id);
+        void EnrollStudenstAsync(int courseId, EnrollStudentDto input);
 
         //Task<StudentDto> CreateAsync(CreateStudentDto input);
 

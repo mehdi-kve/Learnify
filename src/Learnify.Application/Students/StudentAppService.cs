@@ -2,6 +2,7 @@
 using Abp.Application.Services.Dto;
 using Abp.Dependency;
 using Abp.Domain.Repositories;
+using Abp.Extensions;
 using Abp.UI;
 using Learnify.Students.Dtos;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ namespace Learnify.Students
         {
             var students = await _studentRepo.GetAllListAsync();
 
-            if(input.Name != null) 
+            if(!input.Name.IsNullOrWhiteSpace()) 
             {
                 students = await _studentRepo.GetAllListAsync(std => std.Name.Contains(input.Name));
                 

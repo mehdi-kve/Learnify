@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services;
+using Learnify.Courses.Dto;
 using Learnify.Students.Dtos;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace Learnify.Courses
 {
     public interface ICourseAppService: IApplicationService
     {
-        Task<StudentsOutputDto> GetAllAsync();
+        Task<CourseOutputDto> GetAllAsync(GetAllCourseDto input);
 
-        Task<StudentDto> GetByIdAsync(GetByIdDto input);
+        //Task<StudentDto> GetByIdAsync(GetByIdDto input);
 
         //Task<StudentCourseOutput> GetCoursesAsync(int id);
 

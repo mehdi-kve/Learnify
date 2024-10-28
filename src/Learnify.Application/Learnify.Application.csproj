@@ -12,9 +12,11 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Learnify.Core\Learnify.Core.csproj" />
+    <Compile Remove="Courses\Dtos\**" />
+    <EmbeddedResource Remove="Courses\Dtos\**" />
+    <None Remove="Courses\Dtos\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Courses\Dtos\" />
+    <ProjectReference Include="..\Learnify.Core\Learnify.Core.csproj" />
   </ItemGroup>
 </Project>

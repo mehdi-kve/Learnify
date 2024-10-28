@@ -16,10 +16,13 @@ namespace Learnify.Students
 
         Task<StudentCourseOutput> GetCoursesAsync(int id);
 
+        Task<StudentProgressOutput> GetProgressAsync(int id);
+
         Task<StudentDto> CreateAsync(CreateStudentDto input);
 
         Task<StudentDto> UpdateAsync(UpdateStudentDto input);
 
         Task<StudentDto> DeleteAsync(GetByIdDto input);
+
     }
 }

@@ -14,4 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Learnify.Core\Learnify.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Courses\Dtos\" />
+  </ItemGroup>
 </Project>

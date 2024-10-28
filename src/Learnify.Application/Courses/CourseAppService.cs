@@ -47,8 +47,19 @@ namespace Learnify.Courses
             {
                 Courses = ObjectMapper.Map<List<CourseDto>>(courses)
             };
-
         }
+
+        // api Endpoint => GET: api/Course/GetById
+        public async Task<CourseDto> GetByIdAsync(int id)
+        {
+            var course = await _courseRepo.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (course == null)
+                throw new UserFriendlyException("No Course Found!");
+
+            return ObjectMapper.Map<CourseDto>(course);
+        }
+
 
 
     }

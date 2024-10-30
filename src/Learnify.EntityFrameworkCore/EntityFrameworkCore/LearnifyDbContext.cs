@@ -3,9 +3,9 @@ using Abp.Zero.EntityFrameworkCore;
 using Learnify.Authorization.Roles;
 using Learnify.Authorization.Users;
 using Learnify.MultiTenancy;
-using Learnify.Students;
-using Learnify.Courses;
-using Learnify.Enrollments;
+using Learnify.Models.Students;
+using Learnify.Models.Enrollments;
+using Learnify.Models.Courses;
 
 namespace Learnify.EntityFrameworkCore
 {

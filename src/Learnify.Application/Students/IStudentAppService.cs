@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services;
+using Learnify.Models.Students;
 using Learnify.Students.Dtos;
 using System;
 using System.Collections.Generic;
@@ -8,21 +9,23 @@ using System.Threading.Tasks;
 
 namespace Learnify.Students
 {
-    public interface IStudentAppService: IApplicationService
+    public interface IStudentAppService
     {
-        Task<StudentsOutputDto> GetAllAsync(GetAllStudentsDto input);
+        Task<List<Student>> GetAllAsync(string? Name);
 
-        Task<StudentDto> GetByIdAsync(GetByIdDto input);
+        Task<Student?> GetByIdAsync(int id);
 
-        Task<StudentCourseOutput> GetCoursesAsync(int id);
+        Task<Student?> GetCoursesAsync(int id);
 
-        Task<StudentProgressOutput> GetProgressAsync(int id);
+        Task<Student?> GetProgressAsync(int id);
 
-        Task<StudentDto> CreateAsync(CreateStudentDto input);
+        Task<Student?> UpdateProgressAync(int id, Student student);
 
-        Task<StudentDto> UpdateAsync(UpdateStudentDto input);
+        Task<Student> CreateAsync(Student student);
 
-        Task<StudentDto> DeleteAsync(GetByIdDto input);
+        Task<Student?> UpdateAsync(int id, Student student);
+
+        Task<Student?> DeleteAsync(int id);
 
     }
 }

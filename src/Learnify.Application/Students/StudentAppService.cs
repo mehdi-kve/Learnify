@@ -4,6 +4,7 @@ using Abp.Dependency;
 using Abp.Domain.Repositories;
 using Abp.Extensions;
 using Abp.UI;
+using Learnify.Models.Students;
 using Learnify.Students.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Learnify.Students
 {
-    public class StudentAppService : LearnifyAppServiceBase ,IStudentAppService, ITransientDependency
+    public class StudentAppService : IStudentAppService, ITransientDependency
     {
         private readonly IRepository<Student> _studentRepo;
 
@@ -24,81 +25,60 @@ namespace Learnify.Students
             _studentRepo = StudnetRepo;
         }
 
-        // api Endpoint => GET: api/student/GetAll
-        public async Task<StudentsOutputDto> GetAllAsync(GetAllStudentsDto input) 
+        public async Task<List<Student>> GetAllAsync(string Name) 
         {
             var students = await _studentRepo.GetAllListAsync();
 
-            if(!input.Name.IsNullOrWhiteSpace()) 
+            if(!Name.IsNullOrWhiteSpace()) 
             {
-                students = await _studentRepo.GetAllListAsync(std => std.Name.Contains(input.Name));
-                
-                if (students.Count == 0)
-                    throw new UserFriendlyException("No Student Found!");
-            }
+                students = await _studentRepo.GetAllListAsync(std => std.Name.Contains(Name));
 
-            return new StudentsOutputDto
-            {
-                Students = ObjectMapper.Map<List<StudentDto>>(students)
-            };
+                if (students.Count == 0)
+                    return null;
+            }
+            return students;
         }
 
-        // api Endpoint => Get: api/student/GetByID
-        public async Task<StudentDto> GetByIdAsync(GetByIdDto input) 
+        public async Task<Student> GetByIdAsync(int id) 
         {
-            var student = await _studentRepo.FirstOrDefaultAsync(std => std.Id == input.Id);
+            var student = await _studentRepo.FirstOrDefaultAsync(std => std.Id == id);
 
             if(student == null)
-                throw new UserFriendlyException("No Student Found!");
+                return null;
 
-            return ObjectMapper.Map<StudentDto>(student);
+            return student;
         }
 
-        // api Endpoint => Post: api/student/Create
-        public async Task<StudentDto> CreateAsync(CreateStudentDto input)
+        public async Task<Student> CreateAsync(Student student)
         {
-             var stdExist = _studentRepo.FirstOrDefault(s => s.Name == input.Name);
-             if (stdExist != null)
-             {
-                 throw new UserFriendlyException("There is already a Student with given name");
-             }
-            var student = ObjectMapper.Map<Student>(input);
             await _studentRepo.InsertAsync(student);
-            return ObjectMapper.Map<StudentDto>(student);
-
+            return student;
         }
 
-        // api Endpoint => Put: api/student/Update
-        public async Task<StudentDto> UpdateAsync(UpdateStudentDto input) 
+        public async Task<Student> UpdateAsync(int id, Student student) 
         {
-            var student = await _studentRepo.FirstOrDefaultAsync(std => std.Id == input.Id);
-            if (student == null)
-                throw new UserFriendlyException("Student Not Found!");
-  
-            student.Name = input.Name;
-            student.Email = input.Email;
+            var std = await _studentRepo.FirstOrDefaultAsync(std => std.Id == id);
 
-            await _studentRepo.UpdateAsync(student);
-            await CurrentUnitOfWork.SaveChangesAsync(); 
+            if (std == null)
+                return null;
 
-            return ObjectMapper.Map<StudentDto>(student);
+            std.Name = student.Name;
+            student.Email = student.Email;
+            return std;
         }
 
-        // api Endpoint => Delete: api/student/Delete
-        public async Task<StudentDto> DeleteAsync(GetByIdDto input) 
+        public async Task<Student> DeleteAsync(int id) 
         {
-            var student = await _studentRepo.FirstOrDefaultAsync(std => std.Id == input.Id);
+            var student = await _studentRepo.FirstOrDefaultAsync(std => std.Id == id);
             if (student == null)
-                throw new UserFriendlyException("Student Not Found!");
+                return null;
 
-            await _studentRepo.DeleteAsync(input.Id);
-            await CurrentUnitOfWork.SaveChangesAsync();
+            await _studentRepo.DeleteAsync(student);
 
-            return ObjectMapper.Map<StudentDto>(student);
+            return student;
         }
 
-        // api Endpoint => Get: api/student/GetCourses
-        public async Task<StudentCourseOutput> GetCoursesAsync(int id)
+        public async Task<Student> GetCoursesAsync(int id)
         {
             var student = await _studentRepo
                 .GetAll()
@@ -107,7 +87,7 @@ namespace Learnify.Students
                 .FirstOrDefaultAsync(std => std.Id == id);
 
             if (student == null)
-                throw new UserFriendlyException("Student Not Found!");
+                return null;
 
             var enrollmentsDto = student.Enrollments
                 .Select(enr => new EnrollmentDto 
@@ -118,15 +98,11 @@ namespace Learnify.Students
                     EnrollmentDate = enr.CreationTime
                 }).ToList();
 
-            return new StudentCourseOutput {
-                Name = student.Name,
-                Email = student.Email,
-                Enrollments = enrollmentsDto
-            };
+            return student;
 
         }
-        // api Endpoint => Get: api/student/GetProgress
-        public async Task<StudentProgressOutput> GetProgressAsync(int id) 
+
+        public async Task<Student> GetProgressAsync(int id) 
         {
             var student = await _studentRepo
                 .GetAll()
@@ -136,7 +112,7 @@ namespace Learnify.Students
                 .FirstOrDefaultAsync(std => std.Id == id);
 
             if (student == null)
-                throw new UserFriendlyException("Student Not Found!");
+                return null;
 
             var progressDto = student.StudentProgresses
                 .Select(sp => new ProgressDto
@@ -148,13 +124,13 @@ namespace Learnify.Students
                     CompletionDate = sp.CompletionDate
                 }).ToList();
 
-            return new StudentProgressOutput
-            {
-                Id = student.Id,
-                Name = student.Name,
-                StudentProgresses = progressDto
-            };
+            return student;
         }
 
+        // TODO: Impl
+        public Task<Student> UpdateProgressAync(int id, Student student)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -89,15 +89,6 @@ namespace Learnify.Students
             if (student == null)
                 return null;
 
-            var enrollmentsDto = student.Enrollments
-                .Select(enr => new EnrollmentDto 
-                {
-                    Id = enr.Id,
-                    CourseId = enr.Id,
-                    CourseName = enr.Course.CourseName,
-                    EnrollmentDate = enr.CreationTime
-                }).ToList();
-
             return student;
 
         }
@@ -113,16 +104,6 @@ namespace Learnify.Students
 
             if (student == null)
                 return null;
-
-            var progressDto = student.StudentProgresses
-                .Select(sp => new ProgressDto
-                {
-                    Id = sp.Id,
-                    CourseName = sp.CourseStep.Course.CourseName,
-                    CourseStepName = sp.CourseStep.StepName,
-                    State = sp.State,
-                    CompletionDate = sp.CompletionDate
-                }).ToList();
 
             return student;
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Learnify.Students.Dtos
 {
-    public class EnrollmentDto : EntityDto<int>
+    public class EnrollmentDto
     {
         public int CourseId { get; set; }
         public string CourseName { get; set; }

@@ -1,9 +1,11 @@
 ﻿using Abp.Application.Services;
 using Abp.UI;
+using Learnify.Courses.Dto;
 using Learnify.Models.Students;
 using Learnify.Students;
 using Learnify.Students.Dtos;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -111,49 +113,54 @@ namespace Learnify.Controllers
             return NoContent();
         }
 
-        /*
-
-        // api Endpoint => Get: api/student/GetCourses
-        public async Task<StudentCourseOutput> GetCoursesAsync(int id)
+        [HttpGet("{studentId:int}/courses")]
+        public async Task<IActionResult> GetCourses([FromRoute] int studentId) 
         {
-            var student = await _studentRepo
-                .GetAll()
-                .Include(std => std.Enrollments)
-                .ThenInclude(e => e.Course)
-                .FirstOrDefaultAsync(std => std.Id == id);
+
+            var student = await _studentService.GetCoursesAsync(studentId);
 
             if (student == null)
-                throw new UserFriendlyException("Student Not Found!");
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             var enrollmentsDto = student.Enrollments
                 .Select(enr => new EnrollmentDto
                 {
-                    Id = enr.Id,
                     CourseId = enr.Id,
                     CourseName = enr.Course.CourseName,
                     EnrollmentDate = enr.CreationTime
                 }).ToList();
 
-            return new StudentCourseOutput
+            return Ok(new StudentCourseOutput
             {
                 Name = student.Name,
                 Email = student.Email,
                 Enrollments = enrollmentsDto
-            };
+            });
 
         }
-        // api Endpoint => Get: api/student/GetProgress
-        public async Task<StudentProgressOutput> GetProgressAsync(int id)
+
+        [HttpGet("{studentId:int}/progress")]
+        public async Task<IActionResult> GetProgresses([FromRoute] int studentId)
         {
-            var student = await _studentRepo
-                .GetAll()
-                .Include(std => std.StudentProgresses)
-                .ThenInclude(sp => sp.CourseStep)
-                .ThenInclude(cs => cs.Course)
-                .FirstOrDefaultAsync(std => std.Id == id);
+
+            var student = await _studentService.GetProgressAsync(studentId);
 
             if (student == null)
-                throw new UserFriendlyException("Student Not Found!");
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             var progressDto = student.StudentProgresses
                 .Select(sp => new ProgressDto
@@ -165,13 +172,15 @@ namespace Learnify.Controllers
                     CompletionDate = sp.CompletionDate
                 }).ToList();
 
-            return new StudentProgressOutput
+
+            return Ok(new StudentProgressOutput
             {
                 Id = student.Id,
                 Name = student.Name,
                 StudentProgresses = progressDto
-            };
-        }*/
+            });
+
+        }
 
     }
 }

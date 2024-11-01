@@ -1,6 +1,8 @@
 ﻿using Abp.Application.Services;
+using Abp.Timing;
 using Abp.UI;
 using Learnify.Courses.Dto;
+using Learnify.Dtos.Student;
 using Learnify.Models.Students;
 using Learnify.Students;
 using Learnify.Students.Dtos;
@@ -180,6 +182,37 @@ namespace Learnify.Controllers
                 StudentProgresses = progressDto
             });
 
+        }
+
+        [HttpPost("{studentId:int}/progress")]
+        public async Task<IActionResult> UpdateStudentProgress(int studentId, [FromBody] UpdateProgressInput updatedStudent)
+        {
+            if (updatedStudent.CourseStepId == null || updatedStudent.State == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            var stdProgressMap = ObjectMapper.Map<StudentProgress>(updatedStudent);
+
+            if (updatedStudent.State == 1) 
+            {
+                stdProgressMap.CompletionDate = Clock.Now;
+            }
+
+            var result = await _studentService.UpdateProgressAsync(studentId, stdProgressMap);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
 
     }

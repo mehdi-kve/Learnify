@@ -19,7 +19,7 @@ namespace Learnify.Students
 
         Task<Student?> GetProgressAsync(int id);
 
-        Task<Student?> UpdateProgressAync(int id, Student student);
+        Task<Student?> UpdateProgressAsync(int studentId, StudentProgress studentProgress);
 
         Task<Student> CreateAsync(Student student);
 

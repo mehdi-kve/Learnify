@@ -2,6 +2,7 @@
 using Abp.Application.Services.Dto;
 using Abp.Dependency;
 using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
 using Abp.Extensions;
 using Abp.UI;
 using Learnify.Models.Courses;
@@ -129,11 +130,25 @@ namespace Learnify.Students
             return isEnrolled;
         }
 
-        // TODO: Impl
-        public Task<Student> UpdateProgressAync(int id, Student student)
+        public async Task<Student> UpdateProgressAsync(int studentId, StudentProgress studentProgress)
         {
-            throw new NotImplementedException();
-        }
+            var student = await _studentRepo
+                .GetAll()
+                .Include(std => std.StudentProgresses)
+                .FirstOrDefaultAsync(std => std.Id == studentId);
 
+            if (student == null)
+                return null;
+
+            var existingProgress = student.StudentProgresses.FirstOrDefault(sp => sp.CourseStepId == studentProgress.CourseStepId);
+            if (existingProgress != null)
+            {
+                existingProgress.State = studentProgress.State;
+                existingProgress.CompletionDate = studentProgress.CompletionDate;
+                await _studentRepo.UpdateAsync(student);
+            }
+
+            return student;
+        }
     }
 }

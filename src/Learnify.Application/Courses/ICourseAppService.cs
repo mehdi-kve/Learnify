@@ -1,6 +1,7 @@
 ﻿using Abp.Application.Services;
 using Abp.Domain.Repositories;
 using Learnify.Courses.Dto;
+using Learnify.Models.Courses;
 using Learnify.Students;
 using Learnify.Students.Dtos;
 using System;
@@ -11,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace Learnify.Courses
 {
-    public interface ICourseAppService: IApplicationService
+    public interface ICourseAppService
     {
-        Task<CourseOutputDto> GetAllAsync(GetAllCourseDto input);
+        Task<List<Course>> GetAllAsync(GetAllCoursesInput input);
 
-        Task<CourseDto> GetByIdAsync(int id);
+        Task<Course> GetByIdAsync(int id);
 
-        void EnrollStudenstAsync(int courseId, EnrollStudentDto input);
+        //void EnrollStudenstAsync(int courseId, EnrollStudentDto input);
 
         //Task<StudentDto> CreateAsync(CreateStudentDto input);
-
+            
         //Task<StudentDto> UpdateAsync(UpdateStudentDto input);
 
         //Task<StudentDto> DeleteAsync(GetByIdDto input);

@@ -165,7 +165,7 @@ namespace Learnify.Controllers
             var progressDto = student.StudentProgresses
                 .Select(sp => new ProgressDto
                 {
-                    Id = sp.Id,
+                    courseStepId = sp.CourseStepId,
                     CourseName = sp.CourseStep.Course.CourseName,
                     CourseStepName = sp.CourseStep.StepName,
                     State = sp.State,

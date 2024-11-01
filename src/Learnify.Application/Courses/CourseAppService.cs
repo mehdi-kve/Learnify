@@ -16,19 +16,16 @@ using System.Threading.Tasks;
 
 namespace Learnify.Courses
 {
-    public class CourseAppService : LearnifyAppServiceBase, ICourseAppService, ITransientDependency
+    public class CourseAppService : ICourseAppService, ITransientDependency
     {
         private readonly IRepository<Course,int> _courseRepo;
-        private readonly IRepository<Student,int> _studentRepo;
 
-        public CourseAppService(IRepository<Course, int> courseRepo, IRepository<Student, int> StudentRepo)
+        public CourseAppService(IRepository<Course, int> courseRepo)
         {
             _courseRepo = courseRepo;
-            _studentRepo = StudentRepo;
         }
 
-        // api Endpoint => GET: api/Course/GetAll
-        public async Task<CourseOutputDto> GetAllAsync(GetAllCourseDto input)
+        public async Task<List<Course>> GetAllAsync(GetAllCoursesInput input)
         {
             var courses = await _courseRepo.GetAllListAsync();
 
@@ -37,7 +34,7 @@ namespace Learnify.Courses
                 courses = await _courseRepo.GetAllListAsync(c => c.CourseName.Contains(input.Name));
 
                 if (courses.Count == 0)
-                    throw new UserFriendlyException("No Course Found!");
+                    return null;
             }
 
             if (!input.CourseCode.IsNullOrWhiteSpace() && input.Name.IsNullOrWhiteSpace())
@@ -45,27 +42,24 @@ namespace Learnify.Courses
                 courses = await _courseRepo.GetAllListAsync(c => c.CourseCode.Contains(input.CourseCode));
 
                 if (courses.Count == 0)
-                    throw new UserFriendlyException("No Course Found!");
+                    return null;
             }
 
-            return new CourseOutputDto
-            {
-                Courses = ObjectMapper.Map<List<CourseDto>>(courses)
-            };
+            return courses;
+
         }
 
-        // api Endpoint => GET: api/Course/GetById
-        public async Task<CourseDto> GetByIdAsync(int id)
+        public async Task<Course> GetByIdAsync(int id)
         {
             var course = await _courseRepo.FirstOrDefaultAsync(c => c.Id == id);
 
             if (course == null)
-                throw new UserFriendlyException("No Course Found!");
+                return null;
 
-            return ObjectMapper.Map<CourseDto>(course);
+            return course;
         }
 
-        // api Endpoint => Post: api/courses/{courseId}/enrollstudents
+        /*// api Endpoint => Post: api/courses/{courseId}/enrollstudents
         public async void EnrollStudenstAsync(int courseId, EnrollStudentDto input)
         {
             var course = await _courseRepo.FirstOrDefaultAsync(c => c.Id == courseId);
@@ -93,7 +87,7 @@ namespace Learnify.Courses
                     await _courseRepo.UpdateAsync(course);
                 }
             }
-        }
+        }*/
 
 
     }

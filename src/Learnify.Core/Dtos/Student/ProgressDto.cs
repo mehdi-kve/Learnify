@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace Learnify.Students.Dtos
 {
-    public class ProgressDto : EntityDto<int>
+    public class ProgressDto
     {
+        public int courseStepId { get; set; }
         public string CourseName { get; set; }
         public string CourseStepName { get; set; }
         public ProgressState State { get; set; }

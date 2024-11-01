@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Learnify.Courses.Dto
 {
-    public class GetAllCourseDto
+    public class GetAllCoursesInput
     {
         [MaxLength(50)]
         public string? Name { get; set; }

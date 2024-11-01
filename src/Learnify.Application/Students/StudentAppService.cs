@@ -4,13 +4,16 @@ using Abp.Dependency;
 using Abp.Domain.Repositories;
 using Abp.Extensions;
 using Abp.UI;
+using Learnify.Models.Courses;
 using Learnify.Models.Students;
 using Learnify.Students.Dtos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -106,6 +109,23 @@ namespace Learnify.Students
                 return null;
 
             return student;
+        }
+
+        public async Task<bool> ExistingEnrollment(int studentId, int CourseId)
+        {
+            bool isEnrolled = false;
+
+            var student = await _studentRepo
+                .GetAll()
+                .Include(std => std.Enrollments)
+                .FirstOrDefaultAsync(std => std.Id == studentId &&
+                    std.Enrollments.Any(enr => enr.CourseId == CourseId)
+                );
+
+            if (student != null)
+                isEnrolled = true;
+
+            return isEnrolled;
         }
 
         // TODO: Impl

@@ -1,7 +1,11 @@
 ﻿using Abp.Application.Services;
 using Learnify.Courses;
 using Learnify.Courses.Dto;
+using Learnify.Dtos.Course;
+using Learnify.Enrollments;
 using Learnify.Models.Courses;
+using Learnify.Models.Students;
+using Learnify.Students;
 using Learnify.Students.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,10 +20,17 @@ namespace Learnify.Controllers
     public class CoursesController : LearnifyControllerBase
     {
         private readonly ICourseAppService _courseService;
+        private readonly IStudentAppService _studentService;
+        private readonly IEnrollmentAppService _enrollmentService;
 
-        public CoursesController(ICourseAppService courseAppService)
+        public CoursesController(
+            ICourseAppService courseAppService, 
+            IStudentAppService studentAppService,
+            IEnrollmentAppService enrollmentAppService)
         {
             _courseService = courseAppService;
+            _studentService = studentAppService;
+            _enrollmentService = enrollmentAppService;
         }
 
         [HttpGet]
@@ -48,37 +59,66 @@ namespace Learnify.Controllers
             return Ok(ObjectMapper.Map<CourseDto>(course));
         }
 
-
-        /*
-        // api Endpoint => Post: api/courses/{courseId}/enrollstudents
-        public async void EnrollStudenstAsync(int courseId, EnrollStudentDto input)
+        [HttpGet("{courseId:int}/coursesteps")]
+        public async Task<IActionResult> GetCourseSteps([FromRoute] int courseId)
         {
-            var course = await _courseRepo.FirstOrDefaultAsync(c => c.Id == courseId);
+
+            if (await _courseService.GetByIdAsync(courseId) == null)
+                return NotFound("Course Not Found");
+
+            var course = await _courseService.GetCourseStepsAsync(courseId);
 
             if (course == null)
-                throw new UserFriendlyException("No Course Found!");
+            {
+                return NotFound("Course has no steps yet.");
+            }
+
+            var courseStepsDto = course.CourseSteps
+                .Select(c => ObjectMapper.Map<CourseStepDto>(c)).ToList();
+
+            return Ok(new CourseStepsOutout
+            {
+                CourseName = course.CourseName,
+                CourseCode = course.CourseCode,
+                CourseSteps = courseStepsDto            
+            });
+        }
+
+
+        [HttpPost("{courseId:int}/enrollstudents")]
+        public async Task<IActionResult> EnrollStudents([FromRoute] int courseId, [FromBody] EnrollStudentDto input) 
+        {
+            var course = await _courseService.GetByIdAsync(courseId);
+
+            if (course == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             if (input.StudentIds.Count <= 0 || !input.StudentIds.Any())
-            {
-                throw new UserFriendlyException("Student IDs cannot be empty!");
-            }
-            
-            foreach (var studentId in input.StudentIds)
-            {
-                var student = await _studentRepo.FirstOrDefaultAsync(c => c.Id == studentId);
+                return BadRequest();
 
-                if (student != null)
+            foreach (var studentId in input.StudentIds) 
+            {
+                var student = await _studentService.GetByIdAsync(studentId);
+
+                if (student == null) 
                 {
-                    course.Enrollments.Add(new Enrollment
-                    {
-                        CourseId = courseId,
-                        StudentId = studentId
-                    });
-
-                    await _courseRepo.UpdateAsync(course);
+                    return NotFound($"student {studentId} not found!");
                 }
+
+                if (await _studentService.ExistingEnrollment(studentId, courseId) == true)
+                {
+                    continue;
+                }
+
+                await _enrollmentService.EnrollStudenstAsync(courseId, studentId);
+                // Add CoursSteps to student Progress
             }
+
+            return NoContent();
         }
-         */
+
     }
 }

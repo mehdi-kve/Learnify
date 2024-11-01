@@ -18,10 +18,10 @@ namespace Learnify.Courses
 
         Task<Course> GetByIdAsync(int id);
 
-        //void EnrollStudenstAsync(int courseId, EnrollStudentDto input);
-
+        Task<Course> GetCourseStepsAsync(int courseid);
+        
         //Task<StudentDto> CreateAsync(CreateStudentDto input);
-            
+
         //Task<StudentDto> UpdateAsync(UpdateStudentDto input);
 
         //Task<StudentDto> DeleteAsync(GetByIdDto input);

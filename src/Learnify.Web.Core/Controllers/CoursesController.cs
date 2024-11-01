@@ -22,15 +22,19 @@ namespace Learnify.Controllers
         private readonly ICourseAppService _courseService;
         private readonly IStudentAppService _studentService;
         private readonly IEnrollmentAppService _enrollmentService;
+        private readonly IStudentProgressAppService _studentProgressService;
+
 
         public CoursesController(
             ICourseAppService courseAppService, 
             IStudentAppService studentAppService,
-            IEnrollmentAppService enrollmentAppService)
+            IEnrollmentAppService enrollmentAppService,
+            IStudentProgressAppService studentProgressService)
         {
             _courseService = courseAppService;
             _studentService = studentAppService;
             _enrollmentService = enrollmentAppService;
+            _studentProgressService = studentProgressService;
         }
 
         [HttpGet]
@@ -115,6 +119,19 @@ namespace Learnify.Controllers
 
                 await _enrollmentService.EnrollStudenstAsync(courseId, studentId);
                 // Add CoursSteps to student Progress
+                var cs = await _courseService.GetCourseStepsAsync(courseId);
+
+                if (cs != null) 
+                {
+                    var stdInitialProgress = cs.CourseSteps
+                        .Select(c => new StudentProgress
+                        {
+                            CourseStepId = c.Id,
+                            StudentId = studentId
+                        }).ToList();
+
+                    await _studentProgressService.InitialProgress(stdInitialProgress);
+                }
             }
 
             return NoContent();

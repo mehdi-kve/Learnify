@@ -28,6 +28,5 @@ namespace Learnify.Students
         Task<Student?> DeleteAsync(int id);
 
         Task<bool> ExistingEnrollment(int StudentId, int CourseId);
-
     }
 }

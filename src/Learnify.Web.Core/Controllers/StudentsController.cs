@@ -132,7 +132,7 @@ namespace Learnify.Controllers
             var enrollmentsDto = student.Enrollments
                 .Select(enr => new EnrollmentDto
                 {
-                    CourseId = enr.Id,
+                    CourseId = enr.Course.Id,
                     CourseName = enr.Course.CourseName,
                     EnrollmentDate = enr.CreationTime
                 }).ToList();

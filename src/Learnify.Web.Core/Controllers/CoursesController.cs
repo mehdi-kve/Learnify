@@ -131,6 +131,25 @@ namespace Learnify.Controllers
             return Ok();
         }
 
+        [HttpDelete("{courseStepId:int}/coursestep")]
+        public async Task<IActionResult> DeleteStudent(int courseStepId)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _courseStepService.DeleteAsync(courseStepId);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
         [HttpPost("{courseId:int}/enrollstudents")]
         public async Task<IActionResult> EnrollStudents([FromRoute] int courseId, [FromBody] EnrollStudentDto input) 
         {

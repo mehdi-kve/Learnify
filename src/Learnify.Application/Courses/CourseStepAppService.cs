@@ -26,6 +26,17 @@ namespace Learnify.Courses
             return courseStep;
         }
 
+        public async Task<CourseStep> DeleteAsync(int Id)
+        {
+            var courseStep = await _courseStepRepo.FirstOrDefaultAsync(cs => cs.Id == Id);
+            if (courseStep == null)
+                return null;
+
+            await _courseStepRepo.DeleteAsync(courseStep);
+
+            return courseStep;
+        }
+
         public async Task<List<CourseStep>> GetCourseStepsAsync(int courseId)
         {
             var courseSteps = await _courseStepRepo

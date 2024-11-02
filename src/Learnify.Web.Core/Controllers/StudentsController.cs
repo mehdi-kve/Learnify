@@ -103,12 +103,12 @@ namespace Learnify.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteStudent(int id)
         {
-            var result = await _studentService.DeleteAsync(id);
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            var result = await _studentService.DeleteAsync(id);
 
             if (result == null)
             {

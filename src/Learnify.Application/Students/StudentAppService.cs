@@ -2,15 +2,20 @@
 using Abp.Application.Services.Dto;
 using Abp.Dependency;
 using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
 using Abp.Extensions;
 using Abp.UI;
+using Learnify.Models.Courses;
 using Learnify.Models.Students;
 using Learnify.Students.Dtos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -108,10 +113,42 @@ namespace Learnify.Students
             return student;
         }
 
-        // TODO: Impl
-        public Task<Student> UpdateProgressAync(int id, Student student)
+        public async Task<bool> ExistingEnrollment(int studentId, int CourseId)
         {
-            throw new NotImplementedException();
+            bool isEnrolled = false;
+
+            var student = await _studentRepo
+                .GetAll()
+                .Include(std => std.Enrollments)
+                .FirstOrDefaultAsync(std => std.Id == studentId &&
+                    std.Enrollments.Any(enr => enr.CourseId == CourseId)
+                );
+
+            if (student != null)
+                isEnrolled = true;
+
+            return isEnrolled;
+        }
+
+        public async Task<Student> UpdateProgressAsync(int studentId, StudentProgress studentProgress)
+        {
+            var student = await _studentRepo
+                .GetAll()
+                .Include(std => std.StudentProgresses)
+                .FirstOrDefaultAsync(std => std.Id == studentId);
+
+            if (student == null)
+                return null;
+
+            var existingProgress = student.StudentProgresses.FirstOrDefault(sp => sp.CourseStepId == studentProgress.CourseStepId);
+            if (existingProgress != null)
+            {
+                existingProgress.State = studentProgress.State;
+                existingProgress.CompletionDate = studentProgress.CompletionDate;
+                await _studentRepo.UpdateAsync(student);
+            }
+
+            return student;
         }
     }
 }

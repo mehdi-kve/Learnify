@@ -19,7 +19,7 @@ namespace Learnify.Students
 
         Task<Student?> GetProgressAsync(int id);
 
-        Task<Student?> UpdateProgressAync(int id, Student student);
+        Task<Student?> UpdateProgressAsync(int studentId, StudentProgress studentProgress);
 
         Task<Student> CreateAsync(Student student);
 
@@ -27,5 +27,6 @@ namespace Learnify.Students
 
         Task<Student?> DeleteAsync(int id);
 
+        Task<bool> ExistingEnrollment(int StudentId, int CourseId);
     }
 }

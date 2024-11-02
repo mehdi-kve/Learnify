@@ -26,7 +26,7 @@ namespace Learnify.Controllers
         private readonly ICourseStepAppService _courseStepService;
 
         public CoursesController(
-            ICourseAppService courseAppService, 
+            ICourseAppService courseAppService,
             IStudentAppService studentAppService,
             IEnrollmentAppService enrollmentAppService,
             IStudentProgressAppService studentProgressService,
@@ -46,7 +46,7 @@ namespace Learnify.Controllers
 
             if (courses == null)
             {
-                return NotFound();  
+                return NotFound();
             }
 
             return Ok(ObjectMapper.Map<List<CourseDto>>(courses));
@@ -87,8 +87,29 @@ namespace Learnify.Controllers
             {
                 CourseName = course.CourseName,
                 CourseCode = course.CourseCode,
-                CourseSteps = courseStepsDto            
+                CourseSteps = courseStepsDto
             });
+        }
+
+        [HttpPost("{courseId:int}/coursestep")]
+        public async Task<IActionResult> CreateCourseStep([FromRoute] int courseId, [FromBody] courseStepInput input)
+        {
+            var course = _courseService.GetByIdAsync(courseId);
+
+            if (course == null)
+                return NotFound("Course Not Found");
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var studentMap = ObjectMapper.Map<CourseStep>(input);
+            studentMap.CourseId = courseId;
+
+            await _courseStepService.CreateAsync(studentMap);
+
+            return Ok("Coursestep Created Successfully");
         }
 
 

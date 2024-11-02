@@ -1,6 +1,7 @@
 ﻿using Abp.Dependency;
 using Abp.Domain.Repositories;
 using Learnify.Models.Courses;
+using Learnify.Models.Students;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,12 @@ namespace Learnify.Courses
         public CourseStepAppService(IRepository<CourseStep, int> courseStepRepo)
         {
             _courseStepRepo = courseStepRepo;
+        }
+
+        public async Task<CourseStep> CreateAsync(CourseStep courseStep)
+        {
+            await _courseStepRepo.InsertAsync(courseStep);
+            return courseStep;
         }
 
         public async Task<List<CourseStep>> GetCourseStepsAsync(int courseId)

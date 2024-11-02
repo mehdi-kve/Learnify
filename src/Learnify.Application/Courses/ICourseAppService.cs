@@ -17,8 +17,6 @@ namespace Learnify.Courses
         Task<List<Course>> GetAllAsync(GetAllCoursesInput input);
 
         Task<Course> GetByIdAsync(int id);
-
-        Task<Course> GetCourseStepsAsync(int courseid);
         
         //Task<StudentDto> CreateAsync(CreateStudentDto input);
 

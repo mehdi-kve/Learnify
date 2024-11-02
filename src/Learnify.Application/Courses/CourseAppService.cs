@@ -62,17 +62,5 @@ namespace Learnify.Courses
             return course;
         }
 
-        public async Task<Course> GetCourseStepsAsync(int courseId)
-        {
-            var course = await _courseRepo
-                .GetAll()
-                .Include(c => c.CourseSteps)
-                .FirstOrDefaultAsync(c => c.Id == courseId);
-
-            if (course.CourseSteps.Count <= 0)
-                return null;
-
-            return course;
-        }
     }
 }

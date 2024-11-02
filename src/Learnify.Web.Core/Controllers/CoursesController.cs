@@ -23,18 +23,20 @@ namespace Learnify.Controllers
         private readonly IStudentAppService _studentService;
         private readonly IEnrollmentAppService _enrollmentService;
         private readonly IStudentProgressAppService _studentProgressService;
-
+        private readonly ICourseStepAppService _courseStepService;
 
         public CoursesController(
             ICourseAppService courseAppService, 
             IStudentAppService studentAppService,
             IEnrollmentAppService enrollmentAppService,
-            IStudentProgressAppService studentProgressService)
+            IStudentProgressAppService studentProgressService,
+            ICourseStepAppService courseStepService)
         {
             _courseService = courseAppService;
             _studentService = studentAppService;
             _enrollmentService = enrollmentAppService;
             _studentProgressService = studentProgressService;
+            _courseStepService = courseStepService;
         }
 
         [HttpGet]
@@ -66,18 +68,19 @@ namespace Learnify.Controllers
         [HttpGet("{courseId:int}/coursesteps")]
         public async Task<IActionResult> GetCourseSteps([FromRoute] int courseId)
         {
-
-            if (await _courseService.GetByIdAsync(courseId) == null)
-                return NotFound("Course Not Found");
-
-            var course = await _courseService.GetCourseStepsAsync(courseId);
+            var course = await _courseService.GetByIdAsync(courseId);
 
             if (course == null)
+                return NotFound("Course Not Found");
+
+            var courseStp = await _courseStepService.GetCourseStepsAsync(courseId);
+
+            if (courseStp == null)
             {
                 return NotFound("Course has no steps yet.");
             }
 
-            var courseStepsDto = course.CourseSteps
+            var courseStepsDto = courseStp
                 .Select(c => ObjectMapper.Map<CourseStepDto>(c)).ToList();
 
             return Ok(new CourseStepsOutout
@@ -118,12 +121,11 @@ namespace Learnify.Controllers
                 }
 
                 await _enrollmentService.EnrollStudenstAsync(courseId, studentId);
-                // Add CoursSteps to student Progress
-                var cs = await _courseService.GetCourseStepsAsync(courseId);
+                var cs = await _courseStepService.GetCourseStepsAsync(courseId);
 
                 if (cs != null) 
                 {
-                    var stdInitialProgress = cs.CourseSteps
+                    var stdInitialProgress = cs
                         .Select(c => new StudentProgress
                         {
                             CourseStepId = c.Id,

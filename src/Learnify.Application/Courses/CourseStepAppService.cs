@@ -38,5 +38,20 @@ namespace Learnify.Courses
 
             return courseSteps;
         }
+
+        public async Task<CourseStep> UpdateAsync(int Id, CourseStep courseStep)
+        {
+            var cs = await _courseStepRepo.FirstOrDefaultAsync(cs => cs.Id == Id);
+
+            if (cs == null) 
+                return null;
+
+            cs.StepName = courseStep.StepName;
+            cs.Description = courseStep.Description;
+
+            return cs;
+        }
+
+
     }
 }

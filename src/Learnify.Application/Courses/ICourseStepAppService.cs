@@ -13,7 +13,7 @@ namespace Learnify.Courses
 
         Task<CourseStep> CreateAsync(CourseStep courseStep);
 
-        //Task<StudentDto> UpdateAsync(UpdateStudentDto input);
+        Task<CourseStep?> UpdateAsync(int Id, CourseStep courseStep);
 
         //Task<StudentDto> DeleteAsync(GetByIdDto input);
     }

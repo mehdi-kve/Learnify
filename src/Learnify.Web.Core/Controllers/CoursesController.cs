@@ -104,14 +104,32 @@ namespace Learnify.Controllers
                 return BadRequest(ModelState);
             }
 
-            var studentMap = ObjectMapper.Map<CourseStep>(input);
-            studentMap.CourseId = courseId;
+            var csMap = ObjectMapper.Map<CourseStep>(input);
+            csMap.CourseId = courseId;
 
-            await _courseStepService.CreateAsync(studentMap);
+            await _courseStepService.CreateAsync(csMap);
 
             return Ok("Coursestep Created Successfully");
         }
 
+        [HttpPut("{courseStepId:int}/coursestep")]
+        public async Task<IActionResult> UpdateStudent([FromRoute]int courseStepId, [FromBody] courseStepInput input)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var csMap = ObjectMapper.Map<CourseStep>(input);
+
+            var result = await _courseStepService.UpdateAsync(courseStepId, csMap);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
 
         [HttpPost("{courseId:int}/enrollstudents")]
         public async Task<IActionResult> EnrollStudents([FromRoute] int courseId, [FromBody] EnrollStudentDto input) 

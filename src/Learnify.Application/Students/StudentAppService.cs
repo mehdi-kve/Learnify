@@ -130,25 +130,5 @@ namespace Learnify.Students
             return isEnrolled;
         }
 
-        public async Task<Student> UpdateProgressAsync(int studentId, StudentProgress studentProgress)
-        {
-            var student = await _studentRepo
-                .GetAll()
-                .Include(std => std.StudentProgresses)
-                .FirstOrDefaultAsync(std => std.Id == studentId);
-
-            if (student == null)
-                return null;
-
-            var existingProgress = student.StudentProgresses.FirstOrDefault(sp => sp.CourseStepId == studentProgress.CourseStepId);
-            if (existingProgress != null)
-            {
-                existingProgress.State = studentProgress.State;
-                existingProgress.CompletionDate = studentProgress.CompletionDate;
-                await _studentRepo.UpdateAsync(student);
-            }
-
-            return student;
-        }
     }
 }

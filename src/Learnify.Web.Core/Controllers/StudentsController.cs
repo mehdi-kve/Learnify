@@ -21,10 +21,13 @@ namespace Learnify.Controllers
     public class StudentsController : LearnifyControllerBase
     {
         private readonly IStudentAppService _studentService;
+        private readonly IStudentProgressAppService _studentProgressService;
 
-        public StudentsController(IStudentAppService studentAppService)
+
+        public StudentsController(IStudentAppService studentAppService, IStudentProgressAppService studentProgressService)
         {
             _studentService = studentAppService;
+            _studentProgressService = studentProgressService;
         }
 
         [HttpGet]
@@ -200,12 +203,12 @@ namespace Learnify.Controllers
 
             var stdProgressMap = ObjectMapper.Map<StudentProgress>(updatedStudent);
 
-            if (updatedStudent.State == 1) 
+            if (updatedStudent.State == ProgressState.Completed) 
             {
                 stdProgressMap.CompletionDate = Clock.Now;
             }
 
-            var result = await _studentService.UpdateProgressAsync(studentId, stdProgressMap);
+            var result = await _studentProgressService.UpdateProgressAsync(studentId, stdProgressMap);
 
             if (result == null)
             {

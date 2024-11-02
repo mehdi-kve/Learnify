@@ -10,5 +10,7 @@ namespace Learnify.Students
     public interface IStudentProgressAppService
     {
         Task InitialProgress(List<StudentProgress> stdInitialProgress);
+
+        Task<StudentProgress?> UpdateProgressAsync(int studentId, StudentProgress studentProgress);
     }
 }

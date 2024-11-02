@@ -19,8 +19,6 @@ namespace Learnify.Students
 
         Task<Student?> GetProgressAsync(int id);
 
-        Task<Student?> UpdateProgressAsync(int studentId, StudentProgress studentProgress);
-
         Task<Student> CreateAsync(Student student);
 
         Task<Student?> UpdateAsync(int id, Student student);

@@ -57,24 +57,28 @@ namespace Learnify.Students
         public async Task<Student> CreateAsync(Student student)
         {
             await _studentRepo.InsertAsync(student);
-            return student;
+            return student; 
         }
 
-        public async Task<Student> UpdateAsync(int id, Student student) 
+        public async Task<Student> UpdateAsync(long id, Student student) 
         {
-            var std = await _studentRepo.FirstOrDefaultAsync(std => std.Id == id);
+            var std = await _studentRepo.FirstOrDefaultAsync(std => std.UserId == id);
 
             if (std == null)
                 return null;
 
             std.Name = student.Name;
-            student.Email = student.Email;
+            std.Email = student.Email;
+            std.CreationTime = student.CreationTime;
+
+            await _studentRepo.UpdateAsync(std);
+
             return std;
         }
 
-        public async Task<Student> DeleteAsync(int id) 
+        public async Task<Student> DeleteAsync(long id) 
         {
-            var student = await _studentRepo.FirstOrDefaultAsync(std => std.Id == id);
+            var student = await _studentRepo.FirstOrDefaultAsync(std => std.UserId == id);
             if (student == null)
                 return null;
 

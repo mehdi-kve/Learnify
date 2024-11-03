@@ -1583,7 +1583,7 @@ namespace Learnify.Migrations
                     b.ToTable("AbpUsers");
                 });
 
-            modelBuilder.Entity("Learnify.Courses.Course", b =>
+            modelBuilder.Entity("Learnify.Models.Courses.Course", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1605,7 +1605,7 @@ namespace Learnify.Migrations
                     b.ToTable("AppCourses");
                 });
 
-            modelBuilder.Entity("Learnify.Courses.CourseStep", b =>
+            modelBuilder.Entity("Learnify.Models.Courses.CourseStep", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1629,7 +1629,7 @@ namespace Learnify.Migrations
                     b.ToTable("AppCourseSteps");
                 });
 
-            modelBuilder.Entity("Learnify.Enrollments.Enrollment", b =>
+            modelBuilder.Entity("Learnify.Models.Enrollments.Enrollment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1654,6 +1654,61 @@ namespace Learnify.Migrations
                     b.HasIndex("StudentId");
 
                     b.ToTable("AppEnrollments");
+                });
+
+            modelBuilder.Entity("Learnify.Models.Students.Student", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("RegistrationDate");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppStudents");
+                });
+
+            modelBuilder.Entity("Learnify.Models.Students.StudentProgress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CompletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CourseStepId")
+                        .HasColumnType("int");
+
+                    b.Property<byte>("State")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseStepId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("AppStudentProgresses");
                 });
 
             modelBuilder.Entity("Learnify.MultiTenancy.Tenant", b =>
@@ -1718,58 +1773,6 @@ namespace Learnify.Migrations
                     b.HasIndex("TenancyName");
 
                     b.ToTable("AbpTenants");
-                });
-
-            modelBuilder.Entity("Learnify.Students.Student", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("RegistrationDate");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppStudents");
-                });
-
-            modelBuilder.Entity("Learnify.Students.StudentProgress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("CompletionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CourseStepId")
-                        .HasColumnType("int");
-
-                    b.Property<byte>("State")
-                        .HasColumnType("tinyint");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseStepId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("AppStudentProgresses");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
@@ -1990,9 +1993,9 @@ namespace Learnify.Migrations
                     b.Navigation("LastModifierUser");
                 });
 
-            modelBuilder.Entity("Learnify.Courses.CourseStep", b =>
+            modelBuilder.Entity("Learnify.Models.Courses.CourseStep", b =>
                 {
-                    b.HasOne("Learnify.Courses.Course", "Course")
+                    b.HasOne("Learnify.Models.Courses.Course", "Course")
                         .WithMany("CourseSteps")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2001,21 +2004,40 @@ namespace Learnify.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("Learnify.Enrollments.Enrollment", b =>
+            modelBuilder.Entity("Learnify.Models.Enrollments.Enrollment", b =>
                 {
-                    b.HasOne("Learnify.Courses.Course", "Course")
+                    b.HasOne("Learnify.Models.Courses.Course", "Course")
                         .WithMany("Enrollments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Learnify.Students.Student", "Student")
+                    b.HasOne("Learnify.Models.Students.Student", "Student")
                         .WithMany("Enrollments")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("Learnify.Models.Students.StudentProgress", b =>
+                {
+                    b.HasOne("Learnify.Models.Courses.CourseStep", "CourseStep")
+                        .WithMany("StudentProgresses")
+                        .HasForeignKey("CourseStepId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Learnify.Models.Students.Student", "Student")
+                        .WithMany("StudentProgresses")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CourseStep");
 
                     b.Navigation("Student");
                 });
@@ -2045,25 +2067,6 @@ namespace Learnify.Migrations
                     b.Navigation("Edition");
 
                     b.Navigation("LastModifierUser");
-                });
-
-            modelBuilder.Entity("Learnify.Students.StudentProgress", b =>
-                {
-                    b.HasOne("Learnify.Courses.CourseStep", "CourseStep")
-                        .WithMany("StudentProgresses")
-                        .HasForeignKey("CourseStepId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Learnify.Students.Student", "Student")
-                        .WithMany("StudentProgresses")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CourseStep");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
@@ -2137,19 +2140,19 @@ namespace Learnify.Migrations
                     b.Navigation("Tokens");
                 });
 
-            modelBuilder.Entity("Learnify.Courses.Course", b =>
+            modelBuilder.Entity("Learnify.Models.Courses.Course", b =>
                 {
                     b.Navigation("CourseSteps");
 
                     b.Navigation("Enrollments");
                 });
 
-            modelBuilder.Entity("Learnify.Courses.CourseStep", b =>
+            modelBuilder.Entity("Learnify.Models.Courses.CourseStep", b =>
                 {
                     b.Navigation("StudentProgresses");
                 });
 
-            modelBuilder.Entity("Learnify.Students.Student", b =>
+            modelBuilder.Entity("Learnify.Models.Students.Student", b =>
                 {
                     b.Navigation("Enrollments");
 

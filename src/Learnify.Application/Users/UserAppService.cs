@@ -18,7 +18,9 @@ using Learnify.Authorization;
 using Learnify.Authorization.Accounts;
 using Learnify.Authorization.Roles;
 using Learnify.Authorization.Users;
+using Learnify.Models.Students;
 using Learnify.Roles.Dto;
+using Learnify.Students;
 using Learnify.Users.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +36,8 @@ namespace Learnify.Users
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAbpSession _abpSession;
         private readonly LogInManager _logInManager;
+        private readonly IRepository<Student> _studentRepository;
+        private readonly IStudentAppService _studentService;
 
         public UserAppService(
             IRepository<User, long> repository,
@@ -42,7 +46,9 @@ namespace Learnify.Users
             IRepository<Role> roleRepository,
             IPasswordHasher<User> passwordHasher,
             IAbpSession abpSession,
-            LogInManager logInManager)
+            LogInManager logInManager,
+            IRepository<Student> studentRepository,
+            IStudentAppService studentAppService)
             : base(repository)
         {
             _userManager = userManager;
@@ -51,6 +57,8 @@ namespace Learnify.Users
             _passwordHasher = passwordHasher;
             _abpSession = abpSession;
             _logInManager = logInManager;
+            _studentRepository = studentRepository;
+            _studentService = studentAppService;
         }
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
@@ -70,6 +78,15 @@ namespace Learnify.Users
             {
                 CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
             }
+
+            // Create new Student Entity
+
+            await _studentService.CreateAsync(new Student 
+            {
+                Name = user.FullName,
+                Email = user.EmailAddress,
+                UserId = user.Id
+            });
 
             CurrentUnitOfWork.SaveChanges();
 
@@ -91,6 +108,14 @@ namespace Learnify.Users
                 CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
             }
 
+            // Update Student Entity
+            await _studentService.UpdateAsync(user.Id, new Student 
+            {
+                Name = user.FullName,
+                Email = user.EmailAddress,
+                CreationTime = user.CreationTime
+            });
+
             return await GetAsync(input);
         }
 
@@ -98,6 +123,9 @@ namespace Learnify.Users
         {
             var user = await _userManager.GetUserByIdAsync(input.Id);
             await _userManager.DeleteAsync(user);
+
+            // Delete Student Entity
+            await _studentService.DeleteAsync(user.Id);
         }
 
         [AbpAuthorize(PermissionNames.Pages_Users_Activation)]

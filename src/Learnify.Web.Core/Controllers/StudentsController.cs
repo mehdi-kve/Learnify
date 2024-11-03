@@ -56,7 +56,7 @@ namespace Learnify.Controllers
             return Ok(ObjectMapper.Map<StudentOutput>(student));
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public async Task<IActionResult> CreateStudent([FromBody] StudentInput studentDto)
         {
             if (studentDto == null)
@@ -116,7 +116,7 @@ namespace Learnify.Controllers
             }
 
             return NoContent();
-        }
+        }*/
 
         [HttpGet("{studentId:int}/courses")]
         public async Task<IActionResult> GetCourses([FromRoute] int studentId) 

@@ -200,7 +200,6 @@ namespace Learnify.Controllers
                 return BadRequest(ModelState);
             }
 
-
             var stdProgressMap = ObjectMapper.Map<StudentProgress>(updatedStudent);
 
             if (updatedStudent.State == ProgressState.Completed) 

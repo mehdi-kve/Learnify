@@ -29,16 +29,17 @@ namespace Learnify.Students
             }
         }
 
-
         public async Task<StudentProgress> UpdateProgressAsync(int studentId, StudentProgress studentProgress)
         {
-            var studentPrg = await _studentProgressRepo.FirstOrDefaultAsync(std => std.Id == studentId);
+            var studentPrg = await _studentProgressRepo
+                .FirstOrDefaultAsync(std => std.StudentId == studentId && std.CourseStepId == studentProgress.CourseStepId);
 
             if (studentPrg == null)
                 return null;
 
             studentPrg.State = studentProgress.State;
             studentPrg.CompletionDate = studentProgress.CompletionDate;
+            await _studentProgressRepo.UpdateAsync(studentPrg);
 
             return studentPrg;
         }

@@ -1,6 +1,8 @@
 ﻿using Abp.Application.Services;
+using Abp.Authorization;
 using Abp.Timing;
 using Abp.UI;
+using Learnify.Authorization;
 using Learnify.Courses.Dto;
 using Learnify.Dtos.Student;
 using Learnify.Models.Students;
@@ -18,6 +20,7 @@ using System.Threading.Tasks;
 namespace Learnify.Controllers
 {
     [Route("api/[controller]")]
+    [AbpAuthorize(PermissionNames.Pages_Student_ViewStudentPage)]
     public class StudentsController : LearnifyControllerBase
     {
         private readonly IStudentAppService _studentService;

@@ -71,6 +71,8 @@ namespace Learnify.Users
                 CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
             }
 
+            CheckErrors(await _userManager.SetRolesAsync(user, input.RoleNames));
+
             CurrentUnitOfWork.SaveChanges();
 
             return MapToEntityDto(user);

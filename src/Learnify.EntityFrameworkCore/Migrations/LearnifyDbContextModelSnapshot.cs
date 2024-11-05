@@ -1644,42 +1644,16 @@ namespace Learnify.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("EnrollmentDate");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("AppEnrollments");
-                });
-
-            modelBuilder.Entity("Learnify.Models.Students.Student", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("RegistrationDate");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppStudents");
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AppEnrollments");
                 });
 
             modelBuilder.Entity("Learnify.Models.Students.StudentProgress", b =>
@@ -1699,14 +1673,14 @@ namespace Learnify.Migrations
                     b.Property<byte>("State")
                         .HasColumnType("tinyint");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseStepId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("AppStudentProgresses");
                 });
@@ -2012,15 +1986,15 @@ namespace Learnify.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Learnify.Models.Students.Student", "Student")
+                    b.HasOne("Learnify.Authorization.Users.User", "User")
                         .WithMany("Enrollments")
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Course");
 
-                    b.Navigation("Student");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Learnify.Models.Students.StudentProgress", b =>
@@ -2031,15 +2005,15 @@ namespace Learnify.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Learnify.Models.Students.Student", "Student")
+                    b.HasOne("Learnify.Authorization.Users.User", "User")
                         .WithMany("StudentProgresses")
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CourseStep");
 
-                    b.Navigation("Student");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Learnify.MultiTenancy.Tenant", b =>
@@ -2129,6 +2103,8 @@ namespace Learnify.Migrations
                 {
                     b.Navigation("Claims");
 
+                    b.Navigation("Enrollments");
+
                     b.Navigation("Logins");
 
                     b.Navigation("Permissions");
@@ -2136,6 +2112,8 @@ namespace Learnify.Migrations
                     b.Navigation("Roles");
 
                     b.Navigation("Settings");
+
+                    b.Navigation("StudentProgresses");
 
                     b.Navigation("Tokens");
                 });
@@ -2149,13 +2127,6 @@ namespace Learnify.Migrations
 
             modelBuilder.Entity("Learnify.Models.Courses.CourseStep", b =>
                 {
-                    b.Navigation("StudentProgresses");
-                });
-
-            modelBuilder.Entity("Learnify.Models.Students.Student", b =>
-                {
-                    b.Navigation("Enrollments");
-
                     b.Navigation("StudentProgresses");
                 });
 #pragma warning restore 612, 618

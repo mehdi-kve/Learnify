@@ -10,6 +10,7 @@ namespace Learnify.Enrollments
 {
     public interface IEnrollmentAppService
     {
-        Task EnrollStudenstAsync(int courseId, int studentId);
+        Task EnrollStudenstAsync(long UserId, int courseId);
+        Task<bool> ExistingEnrollment(long UserId, int courseId);
     }
 }

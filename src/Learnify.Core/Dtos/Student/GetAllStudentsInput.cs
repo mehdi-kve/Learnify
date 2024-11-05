@@ -1,4 +1,4 @@
-﻿using Abp.Application.Services.Dto;
+﻿/*using Abp.Application.Services.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,3 +12,4 @@ namespace Learnify.Students.Dtos
         public string? Name { get; set; }
     }
 }
+*/

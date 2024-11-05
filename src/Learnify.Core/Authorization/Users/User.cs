@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Abp.Authorization.Users;
 using Abp.Extensions;
+using Learnify.Models.Enrollments;
+using Learnify.Models.Students;
 
 namespace Learnify.Authorization.Users
 {
@@ -29,6 +32,15 @@ namespace Learnify.Authorization.Users
             user.SetNormalizedNames();
 
             return user;
+        }
+
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
+        public virtual ICollection<StudentProgress> StudentProgresses { get; set; }
+
+        public User()
+        {
+            Enrollments = new Collection<Enrollment>();
+            StudentProgresses = new Collection<StudentProgress>();
         }
     }
 }

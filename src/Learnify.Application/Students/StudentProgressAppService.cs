@@ -29,10 +29,10 @@ namespace Learnify.Students
             }
         }
 
-        public async Task<StudentProgress> UpdateProgressAsync(int studentId, StudentProgress studentProgress)
+        public async Task<StudentProgress> UpdateProgressAsync(long id, StudentProgress studentProgress)
         {
             var studentPrg = await _studentProgressRepo
-                .FirstOrDefaultAsync(std => std.StudentId == studentId && std.CourseStepId == studentProgress.CourseStepId);
+                .FirstOrDefaultAsync(std => std.UserId == id && std.CourseStepId == studentProgress.CourseStepId);
 
             if (studentPrg == null)
                 return null;
@@ -40,7 +40,6 @@ namespace Learnify.Students
             studentPrg.State = studentProgress.State;
             studentPrg.CompletionDate = studentProgress.CompletionDate;
             await _studentProgressRepo.UpdateAsync(studentPrg);
-
             return studentPrg;
         }
     }

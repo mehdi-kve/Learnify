@@ -11,9 +11,7 @@ namespace Learnify.EntityFrameworkCore
 {
     public class LearnifyDbContext : AbpZeroDbContext<Tenant, Role, User, LearnifyDbContext>
     {
-        /* Define a DbSet for each entity of the application */
-        
-        public DbSet<Student> Students { get; set; }
+        /* Define a DbSet for each entity of the application */        
         public DbSet<Course> Courses { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<CourseStep> CourseSteps { get; set; }
@@ -29,10 +27,10 @@ namespace Learnify.EntityFrameworkCore
             base.OnModelCreating(modelBuilder);
 
             // student <many_to_many> course #1
-            modelBuilder.Entity<Student>()
+            modelBuilder.Entity<User>()
                 .HasMany(s => s.Enrollments)
-                .WithOne(en => en.Student)
-                .HasForeignKey(en => en.StudentId);
+                .WithOne(en => en.User)
+                .HasForeignKey(en => en.UserId);
 
             modelBuilder.Entity<Course>()
                 .HasMany(c => c.Enrollments)
@@ -46,10 +44,10 @@ namespace Learnify.EntityFrameworkCore
                 .HasForeignKey(cs => cs.CourseId);
 
             // student <one_to_many> student progress
-            modelBuilder.Entity<Student>()
+            modelBuilder.Entity<User>()
                 .HasMany(s => s.StudentProgresses)
-                .WithOne(sp => sp.Student)
-                .HasForeignKey(sp => sp.StudentId);
+                .WithOne(sp => sp.User)
+                .HasForeignKey(sp => sp.UserId);
 
             //   course step progress <one_to_many> student progress
             modelBuilder.Entity<CourseStep>()

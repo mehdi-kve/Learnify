@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Learnify.Authorization.Users;
 
 namespace Learnify.Models.Students
 {
@@ -16,9 +17,9 @@ namespace Learnify.Models.Students
         public ProgressState State { get; set; }
         public DateTime? CompletionDate { get; set; }
 
-        [ForeignKey("StudentId")]
-        public virtual int StudentId { get; set; }
-        public virtual Student Student { get; set; }
+        [ForeignKey("UserId")]
+        public virtual long UserId { get; set; }
+        public virtual User User { get; set; }
 
         [ForeignKey("CourseStep")]
         public virtual int CourseStepId { get; set; }

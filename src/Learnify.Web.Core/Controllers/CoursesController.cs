@@ -1,4 +1,6 @@
 ﻿using Abp.Application.Services;
+using Abp.Domain.Repositories;
+using Learnify.Authorization.Users;
 using Learnify.Courses;
 using Learnify.Courses.Dto;
 using Learnify.Dtos.Course;
@@ -20,23 +22,23 @@ namespace Learnify.Controllers
     public class CoursesController : LearnifyControllerBase
     {
         private readonly ICourseAppService _courseService;
-        private readonly IStudentAppService _studentService;
         private readonly IEnrollmentAppService _enrollmentService;
         private readonly IStudentProgressAppService _studentProgressService;
         private readonly ICourseStepAppService _courseStepService;
+        private readonly IRepository<User, long> _userRepo;
 
         public CoursesController(
+            IRepository<User, long> userRepository,
             ICourseAppService courseAppService,
-            IStudentAppService studentAppService,
             IEnrollmentAppService enrollmentAppService,
             IStudentProgressAppService studentProgressService,
             ICourseStepAppService courseStepService)
         {
             _courseService = courseAppService;
-            _studentService = studentAppService;
             _enrollmentService = enrollmentAppService;
             _studentProgressService = studentProgressService;
             _courseStepService = courseStepService;
+            _userRepo = userRepository;
         }
 
         [HttpGet]
@@ -132,7 +134,7 @@ namespace Learnify.Controllers
         }
 
         [HttpDelete("{courseStepId:int}/coursestep")]
-        public async Task<IActionResult> DeleteStudent(int courseStepId)
+        public async Task<IActionResult> DeleteCourseStep(int courseStepId)
         {
 
             if (!ModelState.IsValid)
@@ -161,24 +163,23 @@ namespace Learnify.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (input.StudentIds.Count <= 0 || !input.StudentIds.Any())
+            if (input.UserIds.Count <= 0 || !input.UserIds.Any())
                 return BadRequest();
 
-            foreach (var studentId in input.StudentIds) 
+            foreach (var studentId in input.UserIds) 
             {
-                var student = await _studentService.GetByIdAsync(studentId);
-
+                var student = await _userRepo.FirstOrDefaultAsync(u => u.Id == studentId);
                 if (student == null) 
                 {
                     return NotFound($"student {studentId} not found!");
                 }
 
-                if (await _studentService.ExistingEnrollment(studentId, courseId) == true)
+                if (await _enrollmentService.ExistingEnrollment(studentId, courseId) == true)
                 {
                     continue;
                 }
 
-                await _enrollmentService.EnrollStudenstAsync(courseId, studentId);
+                await _enrollmentService.EnrollStudenstAsync(studentId, courseId);
                 var cs = await _courseStepService.GetCourseStepsAsync(courseId);
 
                 if (cs != null) 
@@ -187,7 +188,7 @@ namespace Learnify.Controllers
                         .Select(c => new StudentProgress
                         {
                             CourseStepId = c.Id,
-                            StudentId = studentId
+                            UserId = studentId
                         }).ToList();
 
                     await _studentProgressService.InitialProgress(stdInitialProgress);

@@ -1,6 +1,7 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
+using Learnify.Authorization.Users;
 using Learnify.Models.Courses;
 using Learnify.Models.Students;
 using System;
@@ -15,9 +16,9 @@ namespace Learnify.Models.Enrollments
     [Table("AppEnrollments")]
     public class Enrollment : Entity, IHasCreationTime
     {
-        [ForeignKey("StudentId")]
-        public virtual int StudentId { get; set; }
-        public virtual Student Student { get; set; }
+        [ForeignKey("UserId")]
+        public virtual long UserId { get; set; }
+        public virtual User User { get; set; }
 
         [ForeignKey("CourseId")]
         public virtual int CourseId { get; set; }

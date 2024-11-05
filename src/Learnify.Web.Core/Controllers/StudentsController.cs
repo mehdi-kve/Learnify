@@ -1,4 +1,4 @@
-﻿using Abp.Application.Services;
+﻿/*using Abp.Application.Services;
 using Abp.Timing;
 using Abp.UI;
 using Learnify.Courses.Dto;
@@ -20,7 +20,7 @@ namespace Learnify.Controllers
     [Route("api/[controller]")]
     public class StudentsController : LearnifyControllerBase
     {
-        private readonly IStudentAppService _studentService;
+        /*private readonly IStudentAppService _studentService;
         private readonly IStudentProgressAppService _studentProgressService;
 
 
@@ -56,7 +56,7 @@ namespace Learnify.Controllers
             return Ok(ObjectMapper.Map<StudentOutput>(student));
         }
 
-        /*[HttpPost]
+        [HttpPost]
         public async Task<IActionResult> CreateStudent([FromBody] StudentInput studentDto)
         {
             if (studentDto == null)
@@ -117,6 +117,7 @@ namespace Learnify.Controllers
 
             return NoContent();
         }*/
+/*
 
         [HttpGet("{studentId:int}/courses")]
         public async Task<IActionResult> GetCourses([FromRoute] int studentId) 
@@ -219,3 +220,4 @@ namespace Learnify.Controllers
 
     }
 }
+*/

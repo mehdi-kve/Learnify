@@ -9,8 +9,7 @@
 
         public const string Pages_Roles = "Pages.Roles";
 
-        public const string Page_Student = "Page.Student";
-        public const string Pages_Student_ViewStudentPage = "Pages.Student.ViewStudentPage";
-        public const string Pages_Student_EditStudentPage = "Pages.Student.EditStudentPage";
+        public const string Pages_Student = "Pages.Student";
+        public const string Pages_Student_Access = "Pages.Student.Access";
     }
 }

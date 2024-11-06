@@ -81,7 +81,11 @@ namespace Learnify.Controllers
             }
             var csMap = ObjectMapper.Map<Course>(input);
             var course = _courseService.CreateAsync(csMap);
-            return Ok("Course Created Successfully");
+            
+            if (course.Result != null)
+                return Ok("Course Created Successfully");
+
+            return BadRequest("Course is Already Exist in Database");
         }
 
         [AbpAuthorize(PermissionNames.Pages_Users)]

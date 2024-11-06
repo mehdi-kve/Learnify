@@ -65,8 +65,14 @@ namespace Learnify.Courses
 
         public async Task<Course> CreateAsync(Course course)
         {
-            await _courseRepo.InsertAsync(course);
-            return course;
+            var cs = await _courseRepo.FirstOrDefaultAsync(c => c.CourseName == course.CourseName);
+
+            if (cs == null) 
+            {
+                await _courseRepo.InsertAsync(course);
+                return course;
+            }
+            return null;
         }
 
         public async Task<Course> UpdateAsync(int id, Course course)

@@ -1,4 +1,6 @@
 ﻿using Abp.Application.Services;
+using Abp.Domain.Repositories;
+using Learnify.Authorization.Users;
 using Learnify.Courses;
 using Learnify.Courses.Dto;
 using Learnify.Dtos.Course;
@@ -17,7 +19,6 @@ using System.Threading.Tasks;
 namespace Learnify.Controllers
 {
     [Route("api/[controller]")]
-    [AbpAuthorize(PermissionNames.Pages_Student_ViewStudentPage)]
     public class CoursesController : LearnifyControllerBase
     {
         private readonly ICourseAppService _courseService;
@@ -66,82 +67,52 @@ namespace Learnify.Controllers
             return Ok(ObjectMapper.Map<CourseDto>(course));
         }
 
-        [HttpGet("{courseId:int}/coursesteps")]
-        public async Task<IActionResult> GetCourseSteps([FromRoute] int courseId)
+        [HttpPost]
+        public async Task<IActionResult> CreateCourse([FromBody] CourseInput input)
         {
-            var course = await _courseService.GetByIdAsync(courseId);
-
-            if (course == null)
-                return NotFound("Course Not Found");
-
-            var courseStp = await _courseStepService.GetCourseStepsAsync(courseId);
-
-            if (courseStp == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound("Course has no steps yet.");
+                return BadRequest(ModelState);
             }
-
-            var courseStepsDto = courseStp
-                .Select(c => ObjectMapper.Map<CourseStepDto>(c)).ToList();
-
-            return Ok(new CourseStepsOutout
-            {
-                CourseName = course.CourseName,
-                CourseCode = course.CourseCode,
-                CourseSteps = courseStepsDto
-            });
+            var csMap = ObjectMapper.Map<Course>(input);
+            var course = _courseService.CreateAsync(csMap);
+            return Ok("Course Created Successfully");
         }
 
-        [HttpPost("{courseId:int}/coursestep")]
-        public async Task<IActionResult> CreateCourseStep([FromRoute] int courseId, [FromBody] courseStepInput input)
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateCourse(int id, [FromBody] CourseInput input)
         {
-            var course = _courseService.GetByIdAsync(courseId);
-
-            if (course == null)
-                return NotFound("Course Not Found");
+            if (input == null)
+            {
+                return BadRequest(ModelState);
+            }
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var csMap = ObjectMapper.Map<CourseStep>(input);
-            csMap.CourseId = courseId;
+            var csMap = ObjectMapper.Map<Course>(input);
 
-            await _courseStepService.CreateAsync(csMap);
-
-            return Ok("Coursestep Created Successfully");
-        }
-
-        [HttpPut("{courseStepId:int}/coursestep")]
-        public async Task<IActionResult> UpdateStudent([FromRoute]int courseStepId, [FromBody] courseStepInput input)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var csMap = ObjectMapper.Map<CourseStep>(input);
-
-            var result = await _courseStepService.UpdateAsync(courseStepId, csMap);
+            var result = await _courseService.UpdateAsync(id, csMap);
 
             if (result == null)
             {
                 return NotFound();
             }
+
             return Ok();
         }
 
-        [HttpDelete("{courseStepId:int}/coursestep")]
-        public async Task<IActionResult> DeleteCourseStep(int courseStepId)
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteCourse(int id)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _courseStepService.DeleteAsync(courseStepId);
+            var result = await _courseService.DeleteAsync(id);
 
             if (result == null)
             {

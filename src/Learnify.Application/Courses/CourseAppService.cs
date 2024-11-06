@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Abp.Timing;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
+using Learnify.Authorization.Users;
 
 namespace Learnify.Courses
 {
@@ -62,5 +63,37 @@ namespace Learnify.Courses
             return course;
         }
 
+        public async Task<Course> CreateAsync(Course course)
+        {
+            await _courseRepo.InsertAsync(course);
+            return course;
+        }
+
+        public async Task<Course> UpdateAsync(int id, Course course)
+        {
+            var cs = await _courseRepo.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (cs == null)
+                return null;
+
+            cs.CourseName = course.CourseName;
+            cs.CourseCode = course.CourseCode;
+
+            await _courseRepo.UpdateAsync(cs);
+
+            return cs;
+        }
+
+        public async Task<Course> DeleteAsync(int id)
+        {
+            var course = await _courseRepo.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (course == null)
+                return null;
+
+            await _courseRepo.DeleteAsync(course);
+
+            return course;
+        }
     }
 }

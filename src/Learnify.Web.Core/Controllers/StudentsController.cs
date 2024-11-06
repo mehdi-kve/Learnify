@@ -1,4 +1,4 @@
-﻿using Abp.Application.Services;
+﻿/*using Abp.Application.Services;
 using Abp.Timing;
 using Abp.UI;
 using Learnify.Authorization;
@@ -22,7 +22,7 @@ namespace Learnify.Controllers
     [AbpAuthorize(PermissionNames.Pages_Student_ViewStudentPage)]
     public class StudentsController : LearnifyControllerBase
     {
-        /*private readonly IStudentAppService _studentService;
+        private readonly IStudentAppService _studentService;
         private readonly IStudentProgressAppService _studentProgressService;
 
 

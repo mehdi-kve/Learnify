@@ -26,6 +26,7 @@ namespace Learnify.Controllers
             _courseService = courseAppService;
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Student)]
         [HttpGet("{courseId:int}/coursesteps")]
         public async Task<IActionResult> GetCourseSteps([FromRoute] int courseId)
         {

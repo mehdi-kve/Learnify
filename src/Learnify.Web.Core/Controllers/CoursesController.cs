@@ -43,6 +43,7 @@ namespace Learnify.Controllers
             _userRepo = userRepository;
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Student)]
         [HttpGet]
         public async Task<IActionResult> GetCourses(GetAllCoursesInput input)
         {
@@ -56,6 +57,7 @@ namespace Learnify.Controllers
             return Ok(ObjectMapper.Map<List<CourseDto>>(courses));
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Student)]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetCourse(int id)
         {
@@ -127,6 +129,7 @@ namespace Learnify.Controllers
             return NoContent();
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Student)]
         [HttpPost("{courseId:int}/enrollstudents")]
         public async Task<IActionResult> EnrollStudents([FromRoute] int courseId, [FromBody] EnrollStudentDto input) 
         {

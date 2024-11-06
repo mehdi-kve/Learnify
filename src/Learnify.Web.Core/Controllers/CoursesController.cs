@@ -133,7 +133,7 @@ namespace Learnify.Controllers
             return NoContent();
         }
 
-        [AbpAuthorize(PermissionNames.Pages_Student)]
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         [HttpPost("{courseId:int}/enrollstudents")]
         public async Task<IActionResult> EnrollStudents([FromRoute] int courseId, [FromBody] EnrollStudentDto input) 
         {

@@ -1,4 +1,4 @@
-﻿using Abp.Application.Services.Dto;
+﻿/*using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Learnify.Models.Students;
 using System;
@@ -21,4 +21,4 @@ namespace Learnify.Students.Dtos
         [EmailAddress]
         public string Email { get; set; }
     }
-}
+}*/

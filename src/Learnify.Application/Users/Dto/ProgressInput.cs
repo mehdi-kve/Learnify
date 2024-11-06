@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Learnify.Dtos.Student
 {
     [AutoMap(typeof(StudentProgress))]
-    public class UpdateProgressInput
+    public class ProgressInput
     {
         [Required]
         public int CourseStepId { get; set; }

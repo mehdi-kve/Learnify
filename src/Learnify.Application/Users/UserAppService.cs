@@ -13,14 +13,24 @@ using Abp.IdentityFramework;
 using Abp.Linq.Extensions;
 using Abp.Localization;
 using Abp.Runtime.Session;
+using Abp.Timing;
 using Abp.UI;
 using Learnify.Authorization;
 using Learnify.Authorization.Accounts;
 using Learnify.Authorization.Roles;
 using Learnify.Authorization.Users;
+using Learnify.Courses;
+using Learnify.Courses.Dto;
+using Learnify.Dtos.Student;
+using Learnify.Enrollments;
+using Learnify.Models.Courses;
+using Learnify.Models.Students;
 using Learnify.Roles.Dto;
+using Learnify.Students;
+using Learnify.Students.Dtos;
 using Learnify.Users.Dto;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Learnify.Users
@@ -34,6 +44,10 @@ namespace Learnify.Users
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAbpSession _abpSession;
         private readonly LogInManager _logInManager;
+        private readonly IStudentProgressAppService _studentProgressService;
+        private readonly ICourseAppService _courseService;
+        private readonly IEnrollmentAppService _enrollmentService;
+        private readonly ICourseStepAppService _courseStepService;
 
         public UserAppService(
             IRepository<User, long> repository,
@@ -42,7 +56,10 @@ namespace Learnify.Users
             IRepository<Role> roleRepository,
             IPasswordHasher<User> passwordHasher,
             IAbpSession abpSession,
-            LogInManager logInManager)
+            LogInManager logInManager,
+            IStudentProgressAppService studentProgressAppService,
+            ICourseAppService courseAppService,
+            IEnrollmentAppService enrollmentAppService)
             : base(repository)
         {
             _userManager = userManager;
@@ -51,6 +68,9 @@ namespace Learnify.Users
             _passwordHasher = passwordHasher;
             _abpSession = abpSession;
             _logInManager = logInManager;
+            _studentProgressService = studentProgressAppService;
+            _courseService = courseAppService;
+            _enrollmentService = enrollmentAppService;
         }
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
@@ -102,23 +122,23 @@ namespace Learnify.Users
             await _userManager.DeleteAsync(user);
         }
 
-        [AbpAuthorize(PermissionNames.Pages_Users_Activation)]
+        /*[AbpAuthorize(PermissionNames.Pages_Users_Activation)]
         public async Task Activate(EntityDto<long> user)
         {
             await Repository.UpdateAsync(user.Id, async (entity) =>
             {
                 entity.IsActive = true;
             });
-        }
+        }*/
 
-        [AbpAuthorize(PermissionNames.Pages_Users_Activation)]
+        /*[AbpAuthorize(PermissionNames.Pages_Users_Activation)]
         public async Task DeActivate(EntityDto<long> user)
         {
             await Repository.UpdateAsync(user.Id, async (entity) =>
             {
                 entity.IsActive = false;
             });
-        }
+        }*/
 
         public async Task<ListResultDto<RoleDto>> GetRoles()
         {
@@ -126,14 +146,14 @@ namespace Learnify.Users
             return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
         }
 
-        public async Task ChangeLanguage(ChangeUserLanguageDto input)
+        /*public async Task ChangeLanguage(ChangeUserLanguageDto input)
         {
             await SettingManager.ChangeSettingForUserAsync(
                 AbpSession.ToUserIdentifier(),
                 LocalizationSettingNames.DefaultLanguage,
                 input.LanguageName
             );
-        }
+        }*/
 
         protected override User MapToEntity(CreateUserDto createInput)
         {
@@ -198,7 +218,7 @@ namespace Learnify.Users
             {
                 throw new Exception("There is no current user!");
             }
-            
+
             if (await _userManager.CheckPasswordAsync(user, input.CurrentPassword))
             {
                 CheckErrors(await _userManager.ChangePasswordAsync(user, input.NewPassword));
@@ -220,19 +240,19 @@ namespace Learnify.Users
             {
                 throw new UserFriendlyException("Please log in before attempting to reset password.");
             }
-            
+
             var currentUser = await _userManager.GetUserByIdAsync(_abpSession.GetUserId());
             var loginAsync = await _logInManager.LoginAsync(currentUser.UserName, input.AdminPassword, shouldLockout: false);
             if (loginAsync.Result != AbpLoginResultType.Success)
             {
                 throw new UserFriendlyException("Your 'Admin Password' did not match the one on record.  Please try again.");
             }
-            
+
             if (currentUser.IsDeleted || !currentUser.IsActive)
             {
                 return false;
             }
-            
+
             var roles = await _userManager.GetRolesAsync(currentUser);
             if (!roles.Contains(StaticRoleNames.Tenants.Admin))
             {
@@ -248,6 +268,125 @@ namespace Learnify.Users
 
             return true;
         }
+
+        // Get Students Enrolled Courses service
+        public async Task<StudentCourseOutput> GetCourses(long id)
+        {
+
+            var student = await Repository
+                .GetAll()
+                .Include(u => u.Enrollments)
+                .ThenInclude(e => e.Course)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (student == null)
+            {
+                throw new UserFriendlyException("404, User Not Founde!");
+            }
+
+            var enrollmentsDto = student.Enrollments
+                .Select(enr => new EnrollmentDto
+                {
+                    CourseId = enr.Course.Id,
+                    CourseName = enr.Course.CourseName,
+                    EnrollmentDate = enr.CreationTime
+                }).ToList();
+
+            return (new StudentCourseOutput
+            {
+                Id = student.Id,
+                Name = student.Name,
+                Email = student.EmailAddress,
+                Enrollments = enrollmentsDto
+            });
+
+        }
+
+        public async Task<StudentProgressOutput> GetProgresses(long id)
+        {
+
+            var student = await Repository
+                .GetAll()
+                .Include(u => u.StudentProgresses)
+                .ThenInclude(sp => sp.CourseStep)
+                .ThenInclude(cs => cs.Course)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (student == null)
+            {
+                throw new UserFriendlyException("404, User Not Founde!");
+            }
+
+            var progressDto = student.StudentProgresses
+                .Select(sp => new ProgressDto
+                {
+                    courseStepId = sp.CourseStepId,
+                    CourseName = sp.CourseStep.Course.CourseName,
+                    CourseStepName = sp.CourseStep.StepName,
+                    Description = sp.CourseStep.Description,
+                    State = sp.State,
+                    CompletionDate = sp.CompletionDate
+                }).ToList();
+
+
+            return (new StudentProgressOutput
+            {
+                Id = student.Id,
+                Name = student.Name,
+                StudentProgresses = progressDto
+            });
+
+        }
+
+        public async Task<StudentProgressOutput> UpdateStudentProgress(long id, ProgressInput input)
+        {
+            var student = await Repository
+                .GetAll()
+                .Include(u => u.StudentProgresses)
+                .ThenInclude(sp => sp.CourseStep)
+                .ThenInclude(cs => cs.Course)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (student == null)
+            {
+                throw new UserFriendlyException("404, User Not Founde!");
+            }
+
+            var stdProgressMap = ObjectMapper.Map<StudentProgress>(input);
+
+            if (input.State == ProgressState.Completed)
+            {
+                stdProgressMap.CompletionDate = Clock.Now;
+            }
+
+            var result = await _studentProgressService.UpdateProgressAsync(id, stdProgressMap);
+
+            if (result == null)
+            {
+                throw new UserFriendlyException("CourseStep not found or student has no progress in that.");
+            }
+
+            var progressDto = new ProgressDto
+            {
+                courseStepId = result.CourseStepId,
+                CourseName = result.CourseStep.Course.CourseName,
+                CourseStepName = result.CourseStep.StepName,
+                Description = result.CourseStep.Description,
+                State = result.State,
+                CompletionDate = result.CompletionDate
+            };
+
+            var StudentProgresses = new List<ProgressDto>();
+            StudentProgresses.Add(progressDto);
+
+            return (new StudentProgressOutput
+            {
+                Id = student.Id,
+                Name = student.Name,
+                StudentProgresses = StudentProgresses
+            });
+        }
+
     }
 }
 

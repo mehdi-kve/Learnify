@@ -1,5 +1,4 @@
 ﻿using Abp.Application.Services;
-using Abp.Authorization;
 using Abp.Timing;
 using Abp.UI;
 using Learnify.Authorization;
@@ -23,7 +22,7 @@ namespace Learnify.Controllers
     [AbpAuthorize(PermissionNames.Pages_Student_ViewStudentPage)]
     public class StudentsController : LearnifyControllerBase
     {
-        private readonly IStudentAppService _studentService;
+        /*private readonly IStudentAppService _studentService;
         private readonly IStudentProgressAppService _studentProgressService;
 
 
@@ -119,7 +118,8 @@ namespace Learnify.Controllers
             }
 
             return NoContent();
-        }
+        }*/
+/*
 
         [HttpGet("{studentId:int}/courses")]
         public async Task<IActionResult> GetCourses([FromRoute] int studentId) 
@@ -203,7 +203,6 @@ namespace Learnify.Controllers
                 return BadRequest(ModelState);
             }
 
-
             var stdProgressMap = ObjectMapper.Map<StudentProgress>(updatedStudent);
 
             if (updatedStudent.State == ProgressState.Completed) 
@@ -223,3 +222,4 @@ namespace Learnify.Controllers
 
     }
 }
+*/

@@ -21,14 +21,27 @@ namespace Learnify.Enrollments
             _enrollmentsRepo = enrollmentRepo;
         }
 
-        public async Task EnrollStudenstAsync(int courseId, int studentId)
+        public async Task EnrollStudenstAsync(long userId, int courseId)
         {
             await _enrollmentsRepo.InsertAsync(new Enrollment
             {
                 CourseId = courseId,
-                StudentId = studentId,
+                UserId = userId,
                 CreationTime = Clock.Now
             });
+        }
+
+        public async Task<bool> ExistingEnrollment(long userId, int CourseId)
+        {
+            bool isEnrolled = false;
+
+            var studentEnr = await _enrollmentsRepo
+                .FirstOrDefaultAsync(e => e.UserId == userId && e.CourseId == CourseId);
+
+            if (studentEnr != null)
+                isEnrolled = true;
+
+            return isEnrolled;
         }
     }
 }

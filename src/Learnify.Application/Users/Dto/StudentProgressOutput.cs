@@ -8,7 +8,7 @@ namespace Learnify.Students.Dtos
 {
     public class StudentProgressOutput
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public List<ProgressDto> StudentProgresses { get; set; }
     }

@@ -1,4 +1,4 @@
-﻿using Abp.Application.Services;
+﻿/*using Abp.Application.Services;
 using Learnify.Models.Students;
 using Learnify.Students.Dtos;
 using System;
@@ -21,10 +21,11 @@ namespace Learnify.Students
 
         Task<Student> CreateAsync(Student student);
 
-        Task<Student?> UpdateAsync(int id, Student student);
+        Task<Student?> UpdateAsync(long id, Student student);
 
-        Task<Student?> DeleteAsync(int id);
+        Task<Student?> DeleteAsync(long id);
 
         Task<bool> ExistingEnrollment(int StudentId, int CourseId);
     }
 }
+*/

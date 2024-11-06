@@ -1,10 +1,11 @@
-﻿using Abp.Application.Services;
+﻿/*using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Dependency;
 using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.Extensions;
 using Abp.UI;
+using Learnify.Authorization.Users;
 using Learnify.Models.Courses;
 using Learnify.Models.Students;
 using Learnify.Students.Dtos;
@@ -23,14 +24,14 @@ namespace Learnify.Students
 {
     public class StudentAppService : IStudentAppService, ITransientDependency
     {
-        private readonly IRepository<Student> _studentRepo;
+        private readonly IRepository<User> _studentRepo;
 
-        public StudentAppService(IRepository<Student> StudnetRepo)
+        public StudentAppService(IRepository<User> StudnetRepo)
         {
             _studentRepo = StudnetRepo;
         }
 
-        public async Task<List<Student>> GetAllAsync(string Name) 
+        public async Task<List<User>> GetAllAsync(string Name) 
         {
             var students = await _studentRepo.GetAllListAsync();
 
@@ -44,7 +45,7 @@ namespace Learnify.Students
             return students;
         }
 
-        public async Task<Student> GetByIdAsync(int id) 
+        public async Task<User> GetByIdAsync(int id) 
         {
             var student = await _studentRepo.FirstOrDefaultAsync(std => std.Id == id);
 
@@ -54,27 +55,31 @@ namespace Learnify.Students
             return student;
         }
 
-        public async Task<Student> CreateAsync(Student student)
+        public async Task<User> CreateAsync(User student)
         {
             await _studentRepo.InsertAsync(student);
-            return student;
+            return student; 
         }
 
-        public async Task<Student> UpdateAsync(int id, Student student) 
+        public async Task<User> UpdateAsync(long id, Student student) 
         {
-            var std = await _studentRepo.FirstOrDefaultAsync(std => std.Id == id);
+            var std = await _studentRepo.FirstOrDefaultAsync(std => std.UserId == id);
 
             if (std == null)
                 return null;
 
             std.Name = student.Name;
-            student.Email = student.Email;
+            std.Email = student.Email;
+            std.CreationTime = student.CreationTime;
+
+            await _studentRepo.UpdateAsync(std);
+
             return std;
         }
 
-        public async Task<Student> DeleteAsync(int id) 
+        public async Task<User> DeleteAsync(long id) 
         {
-            var student = await _studentRepo.FirstOrDefaultAsync(std => std.Id == id);
+            var student = await _studentRepo.FirstOrDefaultAsync(std => std.UserId == id);
             if (student == null)
                 return null;
 
@@ -83,7 +88,7 @@ namespace Learnify.Students
             return student;
         }
 
-        public async Task<Student> GetCoursesAsync(int id)
+        public async Task<User> GetCoursesAsync(int id)
         {
             var student = await _studentRepo
                 .GetAll()
@@ -98,7 +103,7 @@ namespace Learnify.Students
 
         }
 
-        public async Task<Student> GetProgressAsync(int id) 
+        public async Task<User> GetProgressAsync(int id) 
         {
             var student = await _studentRepo
                 .GetAll()
@@ -132,3 +137,4 @@ namespace Learnify.Students
 
     }
 }
+*/

@@ -95,6 +95,36 @@ namespace Learnify.EntityFrameworkCore.Seed.Host
                 _context.SaveChanges();
             }
 
+            // Student role for host  
+            var studentRoleForHost = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == StaticRoleNames.Host.Student);
+            if (studentRoleForHost == null)
+            {
+                studentRoleForHost = _context.Roles.Add(new Role(null, StaticRoleNames.Host.Student, StaticRoleNames.Host.Student) { IsStatic = true, IsDefault = false }).Entity;
+                _context.SaveChanges();
+            }
+
+            // Grant permissions to the student role for host  
+            var studentPermissions = PermissionFinder
+                .GetAllPermissions(new LearnifyAuthorizationProvider())
+                .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Host) &&
+                            (p.Name == PermissionNames.Pages_Student ||
+                             p.Name == PermissionNames.Pages_Student_Access))
+                .ToList();
+
+            if (studentPermissions.Any())
+            {
+                _context.Permissions.AddRange(
+                    studentPermissions.Select(permission => new RolePermissionSetting
+                    {
+                        TenantId = null,
+                        Name = permission.Name,
+                        IsGranted = true,
+                        RoleId = studentRoleForHost.Id
+                    })
+                );
+                _context.SaveChanges();
+            }
+
             // Admin user for host
 
             var adminUserForHost = _context.Users.IgnoreQueryFilters().FirstOrDefault(u => u.TenantId == null && u.UserName == AbpUserBase.AdminUserName);

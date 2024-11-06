@@ -1,4 +1,6 @@
-﻿using AutoMapper.Internal.Mappers;
+﻿using Abp.Authorization;
+using AutoMapper.Internal.Mappers;
+using Learnify.Authorization;
 using Learnify.Courses;
 using Learnify.Courses.Dto;
 using Learnify.Dtos.Course;
@@ -22,19 +24,6 @@ namespace Learnify.Controllers
         {
             _courseStepService = courseStepAppService;
             _courseService = courseAppService;
-        }
-
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetCourse(int id)
-        {
-            var course = await _courseService.GetByIdAsync(id);
-
-            if (course == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(ObjectMapper.Map<CourseDto>(course));
         }
 
         [HttpGet("{courseId:int}/coursesteps")]
@@ -63,6 +52,7 @@ namespace Learnify.Controllers
             });
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         [HttpPost("{courseId:int}/coursestep")]
         public async Task<IActionResult> CreateCourseStep([FromRoute] int courseId, [FromBody] courseStepInput input)
         {
@@ -84,6 +74,7 @@ namespace Learnify.Controllers
             return Ok("Coursestep Created Successfully");
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         [HttpPut("{courseStepId:int}/coursestep")]
         public async Task<IActionResult> UpdateCourseStep([FromRoute] int courseStepId, [FromBody] courseStepInput input)
         {
@@ -103,6 +94,7 @@ namespace Learnify.Controllers
             return Ok();
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         [HttpDelete("{courseStepId:int}/coursestep")]
         public async Task<IActionResult> DeleteCourseStep(int courseStepId)
         {

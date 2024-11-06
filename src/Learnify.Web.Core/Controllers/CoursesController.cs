@@ -1,5 +1,7 @@
 ﻿using Abp.Application.Services;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
+using Learnify.Authorization;
 using Learnify.Authorization.Users;
 using Learnify.Courses;
 using Learnify.Courses.Dto;
@@ -67,6 +69,7 @@ namespace Learnify.Controllers
             return Ok(ObjectMapper.Map<CourseDto>(course));
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         [HttpPost]
         public async Task<IActionResult> CreateCourse([FromBody] CourseInput input)
         {
@@ -79,6 +82,7 @@ namespace Learnify.Controllers
             return Ok("Course Created Successfully");
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateCourse(int id, [FromBody] CourseInput input)
         {
@@ -104,6 +108,7 @@ namespace Learnify.Controllers
             return Ok();
         }
 
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {

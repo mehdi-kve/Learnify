@@ -1,6 +1,7 @@
 ﻿using Abp.Application.Services;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
+using Abp.Runtime.Session;
 using Learnify.Authorization;
 using Learnify.Authorization.Users;
 using Learnify.Courses;
@@ -28,19 +29,22 @@ namespace Learnify.Controllers
         private readonly IStudentProgressAppService _studentProgressService;
         private readonly ICourseStepAppService _courseStepService;
         private readonly IRepository<User, long> _userRepo;
+        private readonly IAbpSession _session;
 
         public CoursesController(
             IRepository<User, long> userRepository,
             ICourseAppService courseAppService,
             IEnrollmentAppService enrollmentAppService,
             IStudentProgressAppService studentProgressService,
-            ICourseStepAppService courseStepService)
+            ICourseStepAppService courseStepService,
+            IAbpSession abpSession)
         {
             _courseService = courseAppService;
             _enrollmentService = enrollmentAppService;
             _studentProgressService = studentProgressService;
             _courseStepService = courseStepService;
             _userRepo = userRepository;
+            _session = abpSession;
         }
 
         [AbpAuthorize(PermissionNames.Pages_Student)]
@@ -131,6 +135,45 @@ namespace Learnify.Controllers
             }
 
             return NoContent();
+        }
+
+        [AbpAuthorize(PermissionNames.Pages_Student)]
+        [HttpPost("{courseId:int}/enrollCurrentstudent")]
+        public async Task<IActionResult> EnrollCurrentStudent([FromRoute] int courseId)
+        {
+            var course = await _courseService.GetByIdAsync(courseId);
+
+            var currentUserId = (long)_session.UserId;
+
+
+            if (course == null)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (await _enrollmentService.ExistingEnrollment(currentUserId, courseId) == true)
+            {
+                return BadRequest("User Already Enrolled!");
+            }
+
+            await _enrollmentService.EnrollStudenstAsync(currentUserId, courseId);
+
+            var cs = await _courseStepService.GetCourseStepsAsync(courseId);
+
+            if (cs != null)
+            {
+                var stdInitialProgress = cs
+                    .Select(c => new StudentProgress
+                    {
+                        CourseStepId = c.Id,
+                        UserId = currentUserId
+                    }).ToList();
+
+                await _studentProgressService.InitialProgress(stdInitialProgress);
+            }
+
+            return Ok("Student Enrolled Successfully");
         }
 
         [AbpAuthorize(PermissionNames.Pages_Users)]

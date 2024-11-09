@@ -65,7 +65,7 @@ namespace Learnify.Courses
 
         public async Task<Course> CreateAsync(Course course)
         {
-            var cs = await _courseRepo.FirstOrDefaultAsync(c => c.CourseName == course.CourseName);
+            var cs = await _courseRepo.FirstOrDefaultAsync(c => c.CourseCode == course.CourseCode);
 
             if (cs == null) 
             {
@@ -77,17 +77,21 @@ namespace Learnify.Courses
 
         public async Task<Course> UpdateAsync(int id, Course course)
         {
-            var cs = await _courseRepo.FirstOrDefaultAsync(c => c.Id == id);
+            var existingCourse = await _courseRepo.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (cs == null)
+            if (existingCourse == null)
                 return null;
 
-            cs.CourseName = course.CourseName;
-            cs.CourseCode = course.CourseCode;
+            var existingCourseCode = await _courseRepo.FirstOrDefaultAsync(c => c.CourseCode == course.CourseCode);
+            if (existingCourseCode != null && existingCourseCode.CourseCode != existingCourse.CourseCode)
+                return null;
 
-            await _courseRepo.UpdateAsync(cs);
+            existingCourse.CourseName = course.CourseName;
+            existingCourse.CourseCode = course.CourseCode;
 
-            return cs;
+            await _courseRepo.UpdateAsync(existingCourse);
+
+            return existingCourse;
         }
 
         public async Task<Course> DeleteAsync(int id)

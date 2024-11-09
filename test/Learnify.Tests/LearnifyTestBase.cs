@@ -14,6 +14,7 @@ using Learnify.EntityFrameworkCore;
 using Learnify.EntityFrameworkCore.Seed.Host;
 using Learnify.EntityFrameworkCore.Seed.Tenants;
 using Learnify.MultiTenancy;
+using Learnify.Models.Courses;
 
 namespace Learnify.Tests
 {

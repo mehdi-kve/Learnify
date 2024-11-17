@@ -21,11 +21,7 @@ namespace Learnify.Models.Assignments
         public string FilePath { get; set; }
         public long FileSize { get; set; }
         public string ContentType { get; set; }
-        
-        [ForeignKey("AssignmentId")]
-        public virtual int AssignmentId { get; set; }
-        public virtual Assignment Assignment { get; set; }
-       
+
         [ForeignKey("StudentProgressId")]
         public virtual int StudentProgressId { get; set; }
         public virtual StudentProgress StudentProgress { get; set; }

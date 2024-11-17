@@ -94,13 +94,8 @@ namespace Learnify.EntityFrameworkCore
             modelBuilder.Entity<StudentProgress>()
                 .HasMany(sp => sp.Responses)
                 .WithOne(r => r.StudentProgress)
-                .HasForeignKey(r => r.StudentProgressId);
-
-            // Assignment <one_to_many> Response
-            modelBuilder.Entity<Assignment>()
-                .HasMany(a => a.Responses)
-                .WithOne(r => r.Assignment)
-                .HasForeignKey(r => r.AssignmentId);
+                .HasForeignKey(r => r.StudentProgressId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

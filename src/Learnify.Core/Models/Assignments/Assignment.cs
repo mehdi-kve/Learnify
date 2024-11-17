@@ -27,8 +27,6 @@ namespace Learnify.Models.Assignments
         public virtual int CourseStepId { get; set; }
         public virtual CourseStep CourseStep { get; set; }
 
-        public ICollection<Response> Responses { get; set; }
-
         [Column("UploadedAt")]
         public DateTime CreationTime { get; set; }
 

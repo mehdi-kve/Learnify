@@ -27,10 +27,6 @@ namespace Learnify.Models.Assignments
         public virtual int CourseStepId { get; set; }
         public virtual CourseStep CourseStep { get; set; }
 
-        [ForeignKey("UserId")]
-        public virtual long UserId { get; set; }
-        public virtual User User { get; set; }
-
         public ICollection<Response> Responses { get; set; }
 
         [Column("UploadedAt")]

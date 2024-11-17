@@ -2,6 +2,7 @@
 using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
 using Learnify.Models.Enrollments;
+using Learnify.Models.Roadmaps;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,6 +20,7 @@ namespace Learnify.Models.Courses
         public DateTime CreationTime { get; set; }
 
         public ICollection<Enrollment> Enrollments { get; set; }
+        public ICollection<RoadmapCourse> RoadmapCourses { get; set; }
         public ICollection<CourseStep> CourseSteps { get; set; }
 
         public Course()

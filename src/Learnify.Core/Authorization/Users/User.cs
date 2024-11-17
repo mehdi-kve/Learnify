@@ -36,6 +36,7 @@ namespace Learnify.Authorization.Users
 
         public virtual ICollection<Enrollment> Enrollments { get; set; }
         public virtual ICollection<StudentProgress> StudentProgresses { get; set; }
+        public virtual ICollection<StudentRoadmap> StudentRoadmaps { get; set; }
 
         public User()
         {

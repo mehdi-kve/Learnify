@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Abp.Timing;
 using Learnify.Models.Courses;
 using Learnify.Models.Students;
+using Learnify.Authorization.Users;
 
 namespace Learnify.Models.Assignments
 {
@@ -26,11 +27,10 @@ namespace Learnify.Models.Assignments
         public virtual int CourseStepId { get; set; }
         public virtual CourseStep CourseStep { get; set; }
 
-        /*
-        [ForeignKey("TeacherId")]
-        public virtual int TeacherId { get; set; }
-        public virtual Teacher Teacher { get; set; }
-        */
+        [ForeignKey("UserId")]
+        public virtual long UserId { get; set; }
+        public virtual User User { get; set; }
+
         public ICollection<Response> Responses { get; set; }
 
         [Column("UploadedAt")]

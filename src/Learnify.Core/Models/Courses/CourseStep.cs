@@ -1,6 +1,7 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using Abp.Timing;
+using Learnify.Models.Assignments;
 using Learnify.Models.Students;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,6 @@ namespace Learnify.Models.Courses
         public virtual Course Course { get; set; }
 
         public ICollection<StudentProgress> StudentProgresses { get; set; }
+        public ICollection<Assignment> Assignments { get; set; }
     }
 }

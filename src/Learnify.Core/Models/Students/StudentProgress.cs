@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Learnify.Authorization.Users;
+using Learnify.Models.Assignments;
 
 namespace Learnify.Models.Students
 {
@@ -16,6 +17,7 @@ namespace Learnify.Models.Students
     {
         public ProgressState State { get; set; }
         public DateTime? CompletionDate { get; set; }
+        public int TotalScore {  get; set; }    
 
         [ForeignKey("UserId")]
         public virtual long UserId { get; set; }
@@ -24,6 +26,8 @@ namespace Learnify.Models.Students
         [ForeignKey("CourseStep")]
         public virtual int CourseStepId { get; set; }
         public virtual CourseStep CourseStep { get; set; }
+
+        public ICollection<Response> Responses { get; set; }
 
         public StudentProgress()
         {

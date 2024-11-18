@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Learnify.Models.Roadmaps;
+using Learnify.Models.Students;
 
 namespace Learnify.Models.Roadmaps
 {
@@ -19,5 +20,6 @@ namespace Learnify.Models.Roadmaps
         public int DurationInDays { get; set; }
 
         public ICollection<RoadmapCourse> RoadmapCourses { get; set; }
+        public ICollection<StudentRoadmap> StudentRoadmaps { get; set; }
     }
 }

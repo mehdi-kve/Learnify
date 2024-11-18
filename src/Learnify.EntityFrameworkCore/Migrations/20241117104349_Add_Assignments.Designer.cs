@@ -4,6 +4,7 @@ using Learnify.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learnify.Migrations
 {
     [DbContext(typeof(LearnifyDbContext))]
-    partial class LearnifyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241117104349_Add_Assignments")]
+    partial class Add_Assignments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2144,7 +2147,7 @@ namespace Learnify.Migrations
                     b.HasOne("Learnify.Models.Students.StudentProgress", "StudentProgress")
                         .WithMany("Responses")
                         .HasForeignKey("StudentProgressId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("StudentProgress");

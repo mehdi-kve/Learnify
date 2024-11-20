@@ -96,6 +96,12 @@ namespace Learnify.EntityFrameworkCore
                 .WithOne(r => r.StudentProgress)
                 .HasForeignKey(r => r.StudentProgressId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Asignments <one_to_many> Response
+            modelBuilder.Entity<Assignment>()
+                .HasMany(a => a.Responses)
+                .WithOne(r => r.Assignment)
+                .HasForeignKey(r => r.AssignmentId);
         }
     }
 }

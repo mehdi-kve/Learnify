@@ -17,6 +17,9 @@
     <None Remove="Courses\Dtos\**" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Abp.BlobStoring" Version="9.4.2" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Learnify.Core\Learnify.Core.csproj" />
   </ItemGroup>
 </Project>

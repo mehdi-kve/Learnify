@@ -26,9 +26,13 @@ namespace Learnify.Models.Assignments
         public virtual int StudentProgressId { get; set; }
         public virtual StudentProgress StudentProgress { get; set; }
 
+        [ForeignKey("AssignmentId")]
+        public virtual int AssignmentId { get; set; }
+        public virtual Assignment Assignment { get; set; }
+
         [Column("UploadedAt")]
         public DateTime CreationTime { get; set; }
-
+        
         public Response()
         {
             CreationTime = Clock.Now;

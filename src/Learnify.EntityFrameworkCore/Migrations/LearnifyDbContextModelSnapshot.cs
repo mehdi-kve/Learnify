@@ -1631,6 +1631,9 @@ namespace Learnify.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AssignmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ContentType")
                         .HasColumnType("nvarchar(max)");
 
@@ -1657,6 +1660,8 @@ namespace Learnify.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
 
                     b.HasIndex("StudentProgressId");
 
@@ -2141,11 +2146,19 @@ namespace Learnify.Migrations
 
             modelBuilder.Entity("Learnify.Models.Assignments.Response", b =>
                 {
+                    b.HasOne("Learnify.Models.Assignments.Assignment", "Assignment")
+                        .WithMany("Responses")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Learnify.Models.Students.StudentProgress", "StudentProgress")
                         .WithMany("Responses")
                         .HasForeignKey("StudentProgressId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Assignment");
 
                     b.Navigation("StudentProgress");
                 });
@@ -2339,6 +2352,11 @@ namespace Learnify.Migrations
                     b.Navigation("StudentRoadmaps");
 
                     b.Navigation("Tokens");
+                });
+
+            modelBuilder.Entity("Learnify.Models.Assignments.Assignment", b =>
+                {
+                    b.Navigation("Responses");
                 });
 
             modelBuilder.Entity("Learnify.Models.Courses.Course", b =>

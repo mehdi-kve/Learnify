@@ -1,4 +1,5 @@
 ﻿using Abp.AutoMapper;
+using Abp.BlobStoring;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Learnify.Authorization;
@@ -7,7 +8,8 @@ namespace Learnify
 {
     [DependsOn(
         typeof(LearnifyCoreModule), 
-        typeof(AbpAutoMapperModule))]
+        typeof(AbpAutoMapperModule),
+        typeof(AbpBlobStoringModule))]
     public class LearnifyApplicationModule : AbpModule
     {
         public override void PreInitialize()

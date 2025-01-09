@@ -27,6 +27,7 @@ namespace Learnify.Models.Students
         public virtual int CourseStepId { get; set; }
         public virtual CourseStep CourseStep { get; set; }
 
+        // ToDo: Response can be null or empty list
         public ICollection<Response> Responses { get; set; }
 
         public StudentProgress()

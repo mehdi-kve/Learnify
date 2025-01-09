@@ -1,6 +1,7 @@
 ﻿using Abp.BlobStoring;
 using Abp.Dependency;
 using Abp.Domain.Repositories;
+using Learnify.Courses;
 using Learnify.Models.Assignments;
 using Learnify.Models.Courses;
 using Microsoft.AspNetCore.Http;
@@ -16,13 +17,22 @@ namespace Learnify.Assignments
     {
         private readonly IBlobContainer _blobContainer;
         private readonly IRepository<Assignment> _assignmentRepository;
-        private readonly IRepository<Response> _submissionRepository;
-        private readonly IRepository<CourseStep> _courseStepRepository;
+        //private readonly IRepository<Response> _submissionRepository;
+        private readonly ICourseStepAppService _courseStepService;
+
+        public AssignmentAppService(IBlobContainerFactory blobContainerFactory,ICourseStepAppService courseStepAppService)
+        {
+            _blobContainer = blobContainerFactory.Create("Blobs");
+            _courseStepService = courseStepAppService;
+        }
 
         public async Task<Assignment> CreateAsync(int courseStepId, IFormFile assignmentFile, string title, int totalScore)
         {
             // Validate course step exists
-            var courseStep = await _courseStepRepository.GetAsync(courseStepId);
+            var courseStep = await _courseStepService.GetCourseStepsAsync(courseStepId);
+
+            if (courseStep == null)
+                return null;
 
             // Save file to blob storage
             using var stream = assignmentFile.OpenReadStream();

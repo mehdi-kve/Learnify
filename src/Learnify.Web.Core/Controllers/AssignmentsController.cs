@@ -23,11 +23,15 @@ namespace Learnify.Controllers
 
         // Teacher: Create Assignment for Course Step
         [HttpPost("upload/{courseStepId:int}")]
-        public async Task<IActionResult> CreateAssignment(int courseStepId, [FromBody] AssignmentInput Input)
+        public async Task<IActionResult> CreateAssignment(int courseStepId,[FromForm] AssignmentInput input)
         {
             var assignment = await _assignmentService.CreateAsync(
-                courseStepId, assignmentFile, title, totalScore);
-            return Ok(assignment);
+                courseStepId, input.File, input.Title, input.TotalScore);
+
+            if(assignment != null)
+                return Ok(assignment);
+
+            return NotFound();
         }
 
         // Get Assignments for Course Step

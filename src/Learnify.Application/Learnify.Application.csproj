@@ -18,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Abp.BlobStoring" Version="9.4.2" />
+    <PackageReference Include="Abp.BlobStoring.FileSystem" Version="9.4.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Learnify.Core\Learnify.Core.csproj" />
